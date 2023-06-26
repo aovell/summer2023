@@ -11,6 +11,25 @@
 <p1>This is going to my my website and its purpose is to host all my Lab assignmnets.</p1>
 <p2>For</p2>
 <a href="https://ccse.kennesaw.edu/it/">course info</a>
+<nav>
+    <ul>
+      <li><a href="e_books.html">IT E books</a></li>
+      <li><a href="books_search.html">Google Books Search</a></li>
+      <li><a href="e_books_search.html">Google books</a></li>
+      <li><a href="library.html">Librabry</a></li>
+      <li><a href="library.html">Library Search</a></li>
+    </ul>
+  </nav>
+
+<script>
+fetch('./google-books-books.json')
+    .then((response) => response.json())
+    .then((json) => console.log(json));
+
+    import data from './google-books-books.json' assert { type: 'json' };
+console.log(data);
+</script>
+
 </body>
 
 
