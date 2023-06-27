@@ -12,16 +12,22 @@
         </ul>
       </nav>
     
+<ul>
 
+</ul>
 <script>
     fetch("https://www.googleapis.com/books/v1/volumes/Wfan6L9RGgYC")
         .then(response =>{
             return response.json()
         })
         .then(data => {
-            console.log(data)
+            data.forEach(book => {
+                const markup = <li>${book.accessInfo}</li>
+
+                documnet.querySelector('ul').insertAdjacentHTML('beforeend', markup);
+            })
         })
-        
+        .catch(error =>console.log(error))
             </script>
 
 </body>
