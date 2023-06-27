@@ -20,9 +20,9 @@
     fetch("https://www.googleapis.com/books/v1/volumes/Wfan6L9RGgYC")
         .then((response) => response.json())
         .then(data=> {
-            console.log(data)
-        
-            document.querySelector("#debug").innerText = data
+            console.log(data.kind)
+            
+            document.querySelector("#debug").innerText = data.kind
         })
     
             </script>
