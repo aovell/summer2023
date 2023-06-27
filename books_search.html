@@ -15,13 +15,23 @@
 </ul> 
 <div id="debug"></div>
 <script>
+function getData(){
     fetch("https://www.googleapis.com/books/v1/volumes?q=modern%20web")
         .then((response) => response.json())
         .then(data=> {
-            console.log(data)
+            outputData.log(data.items);
             
         })
-
+    }
+function outputData(val){
+    console.log(val);
+    let html ='';
+    val.forEach((ele,ind) =>{
+        console.log(ele)
+        html+='<div></div>';
+    })
+    output.innerHTML=html;
+}
     </script>
 
 </body>
