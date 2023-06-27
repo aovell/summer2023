@@ -20,11 +20,11 @@
         .then(data=> {
             console.log(data)
             data.forEach(book => {
-                const markup = <li>${book.name}</li>
+                console.log(data.kind)
 
-                document.querySelector('ul').insertAdjacentHTML('beforeend', markup);
+    
             })
-            document.querySelector("#debug").innerText = data
+            document.querySelector("#debug").innerText = data.kind
         })
 
     </script>
