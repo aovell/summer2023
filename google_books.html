@@ -15,19 +15,20 @@
 <ul>
 
 </ul>
+<div id="debug"></div>
 <script>
-    fetch("https://www.googleapis.com/books/v1/volumes/Wfan6L9RGgYC")
-        .then(response =>{
-            return response.json()
-        })
-        .then(data => {
+    fetch("google-books-search.json")
+        .then((response) => response.json())
+        .then(data=> {
+            console.log(data)
             data.forEach(book => {
-                const markup = <li>${book.kind}</li>
+                const markup = <li>${book.items}</li>
 
                 documnet.querySelector('ul').insertAdjacentHTML('beforeend', markup);
             })
+            document.querySelector("#debug").innerText = data
         })
-        .catch(error =>console.log(error))
+    
             </script>
 
 </body>
