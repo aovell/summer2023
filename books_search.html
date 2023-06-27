@@ -21,8 +21,9 @@
             console.log(data)
             data.forEach(book => {
                 console.log(data.kind)
-
-    
+                console.log(data.id)
+                console.log(data.etag)
+                console.log(data.selfLink)
             })
             document.querySelector("#debug").innerText = data.kind
         })
