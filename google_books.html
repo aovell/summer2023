@@ -7,25 +7,20 @@
     <nav>
         <ul>
             <li><a href = "index.html"> Home</a></li>
-          <li><a href="it_ebooks_search.html">IT E-books Search</a></li>
           <li><a href="books_search.html">Google Books Search</a></li>
           <li><a href="google_books.html">Google Books</a></li>
-          <li><a href="library.html">Librabry</a></li>
-          <li><a href="library_search.html">Library Search</a></li>
         </ul>
       </nav>
     
-<div id="debug"></div>
-<script>
-    fetch("google-books-book.json")
-        .then((response) => response.json())
-        .then(data=> {
-            console.log(data.sentence)
-            document.querySelector("#debug").innerText = data.sentence
-        })
-    
 
-    </script>
+<script>
+    fetch("https://www.googleapis.com/books/v1/volumes/Wfan6L9RGgYC")
+        .then(response =>{
+            console.log(response);
+        })
+        
+        
+            </script>
 
 </body>
 </html>
