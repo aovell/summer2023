@@ -20,7 +20,11 @@
         .then((response) => response.json())
         .then(data=> {
             console.log(data)
-        
+            forEach(book => {
+                const markup = <li>${book.name}</li>
+
+                document.querySelector('ul').insertAdjacentHTML('beforeend', markup);
+            })
             document.querySelector("#debug").innerText = data
         })
 
