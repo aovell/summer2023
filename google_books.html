@@ -22,7 +22,7 @@
         })
         .then(data => {
             data.forEach(book => {
-                const markup = <li>${book.accessInfo}</li>
+                const markup = <li>${book.kind}</li>
 
                 documnet.querySelector('ul').insertAdjacentHTML('beforeend', markup);
             })

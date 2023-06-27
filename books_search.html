@@ -11,13 +11,20 @@
           <li><a href="google_books.html">Google Books</a></li>
         </ul>
       </nav>
+<ul>
     
+</ul> 
 <div id="debug"></div>
 <script>
     fetch("google-books-search.json")
         .then((response) => response.json())
         .then(data=> {
             console.log(data)
+            data.forEach(book => {
+                const markup = <li>${book.kind}</li>
+
+                documnet.querySelector('ul').insertAdjacentHTML('beforeend', markup);
+            })
             document.querySelector("#debug").innerText = data
         })
     
