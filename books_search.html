@@ -19,7 +19,7 @@ function getData(){
     fetch("https://www.googleapis.com/books/v1/volumes?q=modern%20web")
         .then((response) => response.json())
         .then(data=> {
-            console.log(data.items);
+            console.log(data);
             
         })
     
