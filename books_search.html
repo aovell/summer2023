@@ -12,7 +12,7 @@
         </ul>
       </nav>
 <ul>
-    
+
 </ul> 
 <div id="debug"></div>
 <script>
@@ -21,7 +21,7 @@
         .then(data=> {
             console.log(data)
             data.forEach(book => {
-                const markup = <li>${book.kind}</li>
+                const markup = <li>${book.items}</li>
 
                 documnet.querySelector('ul').insertAdjacentHTML('beforeend', markup);
             })
