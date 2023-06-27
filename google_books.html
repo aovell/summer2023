@@ -20,11 +20,12 @@
     fetch("https://www.googleapis.com/books/v1/volumes/Wfan6L9RGgYC")
         .then((response) => response.json())
         .then(data=> {
-            console.log(data.kind)
-            console.log(data.id)
-            console.log(data.etag)
-            console.log(data.selfLink)
-            document.querySelector("#debug").innerText = data.kind
+            //console.log(data.kind)
+            //console.log(data.id)
+            //console.log(data.etag)
+            //console.log(data.selfLink)
+            console.log(data.volumeInfo)
+            document.querySelector("#debug").innerText = data.volumeInfo
         })
     
             </script>
