@@ -12,19 +12,23 @@
         </ul>
       </nav>
     
+      
+ 
+    
 <ul>
 
 </ul>
 <div id="debug"></div>
-<script>
-    fetch("https://www.googleapis.com/books/v1/volumes/Wfan6L9RGgYC")
-        .then((response) => response.json())
-        .then(data=> {
-            console.log(data)
-            
-        })
+<p id="demo"></p>
+
     
-            </script>
+
+
+<script>
+const txt = '{ "Title": "The Modern Web", "Subtitle":"Multi-device Web Development with HTML5, CSS3, and JavaScript","Authors": [ { "Name": "Peter Gasston"} ],"Publisher": "No Starch Press","Published Date": "2013","Description": "A Guide to Modern Web Development Todays web technologies are evolving at near-light speed, bringing the promise of a seamless Internet ever closer to reality. When users can browse the Web on a three-inch phone screen as easily as on a fifty-inch HDTV, whats a developer to do?</p><p>Peter Gasstons <i>The Modern Web</i> will guide you through the latest and most important tools of device-agnostic web development, including HTML5, CSS3, and JavaScript. His plain-English explanations and practical examples emphasize the techniques, principles, and practices that youll need to easily transcend individual browser quirks and stay relevant as these technologies are updated.</p><p>Learn how to:</p><p>* Plan your content so that it displays fluidly across multiple devices<br>* Design websites to interact with devices using the most up-to-date APIs, including Geolocation, Orientation, and Web Storage<br>* Incorporate cross-platform audio and video without using troublesome plug-ins<br>* Make images and graphics scalable on high-resolution devices with SVGUse powerful HTML5 elements to design better forms</p><p>Turn outdated websites into flexible, user-friendly ones that take full advantage of the unique capabilities of any device or browser. With the help of <i>The Modern Web</i>, youll be ready to navigate the front lines of device-independent development."}'
+const obj = JSON.parse(txt);
+document.getElementById("demo").innerHTML = obj.title + ", " + obj.Subtitle + obj.Authors + ", " + obj.title + ", " + obj.Publisher + obj.PublishedDate + ", " + obj.Description;
+ </script>
 
 </body>
 </html>
