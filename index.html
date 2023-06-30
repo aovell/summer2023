@@ -2,23 +2,59 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+  ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #f8f2f2;
+}
+
+li {
+  float: left;
+  border-right:1px solid #080808;
+}
+
+li:last-child {
+  border-right: none;
+}
+li a {
+  display: block;
+  color: rgb(10, 9, 9);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #0a0a0a;
+}
+
+.active {
+  background-color: #eed814;
+}
+
+</style>
 </head>
 
 
-<body style="background-color:rgb(244, 247, 96);">
-<h1>Alyn Ovell</h1>
-<h2>Kennesaw State University</h2>
-<p1>This is going to my my website and its purpose is to host all my Lab assignmnets.</p1>
-<p2>For</p2>
-<a href="https://ccse.kennesaw.edu/it/">course info</a>
+<body>
+
+ 
 <nav>
     <ul>
-      <li><a href = "index.html"> Home</a></li>
-      <li><a href="books_search.html">Google Books Search</a></li>
-      <li><a href="google_books.html">Google Books</a></li>
+      <li><a class="active" href = "index.html"> Main menu</a></li>
+      <li><a href="books_search.html">Home</a></li>
+      <li><a href="google_books.html">My Bookshelf</a></li>
     </ul>
   </nav>
-
+  <h1>Alyn Ovell</h1>
+  <h2>Kennesaw State University</h2>
+  <p1>This is going to my my website and its purpose is to host all my Lab assignmnets.</p1>
+  <p2>For</p2>
+  <a href="https://ccse.kennesaw.edu/it/">course info</a>
+  
 
 </body>
 

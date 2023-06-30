@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color:#f8f2f2;
+      }
+      
+      li {
+        float: left;
+        border-right:1px solid #080808;
+      }
+      
+      li:last-child {
+        border-right: none;
+      }
+      li a {
+        display: block;
+        color: rgb(10, 9, 9);
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+      
+      li a:hover:not(.active) {
+  background-color: #0a0a0a;
+}
+      
+      .active {
+  background-color:  #eed814;
+}
+
+
+</style>
+
+
+</head>
+
+<body>
+    <h1>Google Books Search</h1>
+    <nav>
+        <ul>
+            <li><a href = "index.html"> Main menu</a></li>
+      <li><a class = "active" href="home.html">Home</a></li>
+      <li><a href="google_books_search.html">My Bookshelf</a></li>
+        </ul>
+      </nav>
+<ul>
+</ul> 
+<div id="debug"></div>
+<script>
+function getData(){
+    fetch("https://www.googleapis.com/books/v1/volumes?q=modern%20web")
+        .then((response) => response.json())
+        .then(data=> {
+            console.log(data);
+            document.querySelector("debug").innerText = data
+        })
+    
+}
+    </script>
+
+</body>
+</html>
