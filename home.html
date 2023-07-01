@@ -49,20 +49,40 @@
       <li><a href="google_books_search.html">My Bookshelf</a></li>
         </ul>
       </nav>
-<ul>
-</ul> 
-<div id="debug"></div>
-<script>
-function getData(){
-    fetch("https://www.googleapis.com/books/v1/volumes?q=modern%20web")
-        .then((response) => response.json())
-        .then(data=> {
-            console.log(data);
-            document.querySelector("debug").innerText = data
-        })
-    
-}
-    </script>
-
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Book Search</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="script.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <h1>Book Search</h1>
+  <form id="search-form">
+    <input type="text" id="search-term" placeholder="Enter search term">
+    <button type="submit">Search</button>
+  </form>
+  <div id="search-results"></div>
+  <div id="pagination"></div>
+</body>
+</html>
+</body>
+</html>
+<!-- bookDetails.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Book Details</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="script.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <h1>Book Details</h1>
+  <div id="book-details"></div>
 </body>
 </html>
