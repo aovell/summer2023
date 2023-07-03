@@ -83,7 +83,7 @@ $(document).ready(function() {
     detailsContainer.append(titleElement, authorsElement, publisherElement, descriptionElement, coverImageElement, priceElement);
   }
   //bookshelf
-  function handleResponse(response) {
+  /*function handleResponse(response) {
     var bookshelf = document.getElementById('bookshelf');
     
     if (response && response.items) {
@@ -135,4 +135,33 @@ $(document).ready(function() {
     dataType: 'jsonp',
     success: handleResponse
   });
+  */
+  var xmlFileUrl = 'my_publicBookshelf.xml'; // Replace with the URL or path to your XML file
+
+  var xmlHttpRequest = new XMLHttpRequest();
+  xmlHttpRequest.onreadystatechange = function() {
+    if (xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200) {
+      var xmlContent = xmlHttpRequest.responseText;
+      var formattedXml = formatXml(xmlContent);
+      document.getElementById('xmlContent').innerHTML = formattedXml;
+    }
+  };
+  xmlHttpRequest.open('GET', xmlFileUrl, true);
+  xmlHttpRequest.send();
+  
+  function formatXml(xml) {
+    var formattedXml = '';
+  
+    // Create an XML DOM parser
+    var parser = new DOMParser();
+    var xmlDoc = parser.parseFromString(xml, 'text/xml');
+  
+    // Serialize the XML DOM to string with indentation
+    if (xmlDoc) {
+      var serializer = new XMLSerializer();
+      formattedXml = serializer.serializeToString(xmlDoc);
+    }
+  
+    return formattedXml;
+  }
   

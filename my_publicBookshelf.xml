@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<library>
+  <list_title>My public bookshelf</list_title>
+  <blurb></blurb>
+  <url>https://books.google.com/books?uid=114034464592823534860&amp;as_coll=1001</url>
+  <books>
+    <book>
+      <id>N2hUAgWfB04C</id>
+      <url>https://books.google.com/books?id=N2hUAgWfB04C</url>
+      <title>We&apos;ll Always Have Summer</title>
+      <contributor>Jenny Han</contributor>
+      <identifier>
+        <type>ISBN</type>
+        <value>1416995595</value>
+      </identifier>
+      <labels />
+    </book>
+    <book>
+      <id>cCYDj6vEReAC</id>
+      <url>https://books.google.com/books?id=cCYDj6vEReAC</url>
+      <title>Beginning Web Programming with HTML, XHTML, and CSS</title>
+      <contributor>Jon Duckett</contributor>
+      <identifier>
+        <type>ISBN</type>
+        <value>1118058798</value>
+      </identifier>
+      <labels />
+    </book>
+    <book>
+      <id>BYAVCAAAQBAJ</id>
+      <url>https://books.google.com/books?id=BYAVCAAAQBAJ</url>
+      <title>Heat Rises: Nikki Heat</title>
+      <contributor>Richard Castle</contributor>
+      <identifier>
+        <type>ISBN</type>
+        <value>1401303919</value>
+      </identifier>
+      <labels />
+    </book>
+    <book>
+      <id>qqRh8cqzoAIC</id>
+      <url>https://books.google.com/books?id=qqRh8cqzoAIC</url>
+      <title>Heat Wave</title>
+      <contributor>Richard Castle</contributor>
+      <identifier>
+        <type>ISBN</type>
+        <value>1401323820</value>
+      </identifier>
+      <labels />
+    </book>
+    <book>
+      <id>THqGpKpcgxYC</id>
+      <url>https://books.google.com/books?id=THqGpKpcgxYC</url>
+      <title>It&apos;s Not Summer Without You</title>
+      <contributor>Jenny Han</contributor>
+      <identifier>
+        <type>ISBN</type>
+        <value>1416995560</value>
+      </identifier>
+      <labels />
+    </book>
+  </books>
+</library>
