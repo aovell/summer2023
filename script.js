@@ -1,4 +1,4 @@
-// script.js
+// book search
 $(document).ready(function() {
     $('#search-form').submit(function(event) {
       event.preventDefault();
@@ -41,7 +41,7 @@ $(document).ready(function() {
       resultsContainer.append(bookElement);
     });
   }
-  // script.js
+  
 $(document).ready(function() {
     var urlParams = new URLSearchParams(window.location.search);
     var bookId = urlParams.get('bookId');
@@ -128,7 +128,6 @@ $(document).ready(function() {
     }
   }
   
-  // Replace YOUR_BOOKSHELF_ID with the ID of your public bookshelf
   var booksApiUrl = 'https://www.googleapis.com/books/v1/users/114034464592823534860/bookshelves/1001/volumes?callback=handleResponse';
   $.ajax({
     url: booksApiUrl,
