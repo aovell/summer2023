@@ -82,44 +82,57 @@ $(document).ready(function() {
     
     detailsContainer.append(titleElement, authorsElement, publisherElement, descriptionElement, coverImageElement, priceElement);
   }
-  // script.js
-$(document).ready(function() {
-    var bookshelfId = 'https://books.google.com/books?uid=114034464592823534860&as_coll=1001&source=gbs_lp_bookshelf_list'; // Replace with your bookshelf ID from Google Books
-    getBooksFromBookshelf(bookshelfId);
-  });
-  
-  function getBooksFromBookshelf(bookshelfId) {
-    var apiUrl = 'https://www.googleapis.com/books/v1/mylibrary/bookshelves/' + bookshelfId + '/volumes';
+  //bookshelf
+  function handleResponse(response) {
+    var bookshelf = document.getElementById('bookshelf');
     
-    $.getJSON(apiUrl, function(data) {
-      displayBookshelf(data);
-    });
-  }
-  
-  function displayBookshelf(data) {
-    var bookshelfContainer = $('#bookshelf');
-    bookshelfContainer.empty();
-    
-    if (data.totalItems === 0) {
-      bookshelfContainer.html('<p>No books in the bookshelf.</p>');
-      return;
+    if (response && response.items) {
+      var books = response.items;
+      for (var i = 0; i < books.length; i++) {
+        var book = books[i].volumeInfo;
+        var title = book.title;
+        var authors = book.authors ? book.authors.join(', ') : 'Unknown Author';
+        var thumbnail = book.imageLinks ? book.imageLinks.smallThumbnail : '';
+        var description = book.description ? book.description : 'No description available.';
+        var previewLink = book.previewLink;
+        
+        var bookElement = document.createElement('div');
+        bookElement.classList.add('book');
+        
+        var imageElement = document.createElement('img');
+        imageElement.src = thumbnail;
+        
+        var titleElement = document.createElement('h3');
+        titleElement.innerHTML = title;
+        
+        var authorElement = document.createElement('p');
+        authorElement.innerHTML = 'By ' + authors;
+        
+        var descriptionElement = document.createElement('p');
+        descriptionElement.innerHTML = description;
+        
+        var previewLinkElement = document.createElement('a');
+        previewLinkElement.href = previewLink;
+        previewLinkElement.innerHTML = 'Read more';
+        
+        bookElement.appendChild(imageElement);
+        bookElement.appendChild(titleElement);
+        bookElement.appendChild(authorElement);
+        bookElement.appendChild(descriptionElement);
+        bookElement.appendChild(previewLinkElement);
+        
+        bookshelf.appendChild(bookElement);
+      }
+    } else {
+      bookshelf.innerHTML = 'No books found.';
     }
-    
-    var books = data.items;
-    
-    $.each(books, function(index, book) {
-      var title = book.volumeInfo.title;
-      var coverImage = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : 'no-image.jpg';
-      var bookId = book.id;
-      
-      var bookElement = $('<div class="book-item">');
-      var titleElement = $('<h2>').text(title);
-      var coverImageElement = $('<img>').attr('src', coverImage);
-      
-      var bookLink = $('<a>').attr('href', 'bookDetails.html?bookId=' + bookId).append(titleElement);
-      
-      bookElement.append(bookLink, coverImageElement);
-      bookshelfContainer.append(bookElement);
-    });
   }
+  
+  // Replace YOUR_BOOKSHELF_ID with the ID of your public bookshelf
+  var booksApiUrl = 'https://books.google.com/books?uid=114034464592823534860&as_coll=1001&source=gbs_lp_bookshelf_list';
+  $.ajax({
+    url: booksApiUrl,
+    dataType: 'jsonp',
+    success: handleResponse
+  });
   

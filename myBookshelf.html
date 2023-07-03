@@ -1,6 +1,8 @@
+
 <!DOCTYPE html>
 <html>
 <head>
+  <title>My Public Bookshelf</title>
   <style>
     ul {
     list-style-type: none;
@@ -32,20 +34,12 @@ background-color:  #0a0a0a;
   
   .active {
 background-color: #eed814;
-}
+} 
+  </style>
 
-</style>
 </head>
-
 <body>
-    
-
-    
-   <!-- myBookshelf.html -->
-
-<head>
-  <meta charset="UTF-8">
-  <title>My Bookshelf</title>
+<h1>My Bookshelf</h1>
   <nav>
     <ul>
       <li><a  href = "index.html"> Main menu</a></li>
@@ -53,24 +47,11 @@ background-color: #eed814;
       <li><a class="active" href="myBookshelf.html">My Bookshelf</a></li>
     </ul>
   </nav>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="script.js"></script>
-  <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-  <h1>My Bookshelf</h1>
+
   <div id="bookshelf"></div>
-</body>
-</html>
-   
- 
-    
 
-
-    
-
-
-
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://www.googleapis.com/books/v1/js?callback=handleResponse"></script>
+  <script src="script.js"></script>
 </body>
 </html>
