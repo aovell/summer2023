@@ -84,7 +84,7 @@ $(document).ready(function() {
   }
   // script.js
 $(document).ready(function() {
-    var bookshelfId = 'YOUR_BOOKSHELF_ID'; // Replace with your bookshelf ID from Google Books
+    var bookshelfId = 'https://books.google.com/books?uid=114034464592823534860&as_coll=1001&source=gbs_lp_bookshelf_list'; // Replace with your bookshelf ID from Google Books
     getBooksFromBookshelf(bookshelfId);
   });
   
