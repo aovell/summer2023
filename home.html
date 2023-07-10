@@ -47,41 +47,81 @@
             <li><a href = "index.html"> Main menu</a></li>
       <li><a class = "active" href="home.html">Home</a></li>
       <li><a href="myBookshelf.html">My Bookshelf</a></li>
-      <li> <a href = "milestone3.html"> Milestone 3</li>
         </ul>
       </nav>
 <!-- index.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
   <title>Book Search</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="script.js"></script>
+  <style>
+    .result {
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
   <h1>Book Search</h1>
-  <form id="search-form">
-    <input type="text" id="search-term" placeholder="Enter search term">
-    <button type="submit">Search</button>
-  </form>
-  <div id="search-results"></div>
-  <div id="pagination"></div>
-</body>
-</html>
-</body>
-</html>
-<!-- bookDetails.html -->
 
-<head>
-  <meta charset="UTF-8">
-  <title>Book Details</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="script.js"></script>
-  <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-  <h1>Book Details</h1>
-  <div id="book-details"></div>
+  <label for="searchInput">Search Books:</label>
+  <input type="text" id="searchInput">
+  <button id="searchButton">Search</button>
+
+  <div id="results"></div>
+  <div id="pagination"></div>
+
+  <script>
+    var currentPage = 1;
+
+    function performSearch() {
+      var searchTerm = $('#searchInput').val();
+
+      // Make an AJAX request to the Google Books search API
+      $.getJSON('https://www.googleapis.com/books/v1/volumes', {
+        q: searchTerm,
+        startIndex: (currentPage - 1) * 10,
+        maxResults: 10
+      })
+      .done(function(data) {
+        // Clear previous results
+        $('#results').empty();
+
+        // Display the search results
+        $.each(data.items, function(i, item) {
+          var bookTitle = item.volumeInfo.title;
+          var coverImage = item.volumeInfo.imageLinks.thumbnail;
+          var resultHtml = '<div class="result"><h3>' + bookTitle + '</h3><img src="' + coverImage + '"></div>';
+          $('#results').append(resultHtml);
+        });
+
+        // Generate pagination links
+        var totalPages = Math.ceil(data.totalItems / 10);
+        $('#pagination').empty();
+        for (var i = 1; i <= totalPages; i++) {
+          var pageLink = $('<a href="#" class="page-link">' + i + '</a>');
+          if (i === currentPage) {
+            pageLink.addClass('active');
+          }
+          $('#pagination').append(pageLink);
+        }
+      })
+      .fail(function() {
+        alert('Failed to perform the search.');
+      });
+    }
+
+    // Handle search button click
+    $('#searchButton').click(function() {
+      currentPage = 1;
+      performSearch();
+    });
+
+    // Handle pagination link click
+    $(document).on('click', '.page-link', function() {
+      currentPage = parseInt($(this).text());
+      performSearch();
+    });
+  </script>
 </body>
 </html>
