@@ -3,6 +3,36 @@
 <head>
   <title>Book Search</title>
   <style>
+    ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color:#f8f2f2;
+  }
+  
+  li {
+    float: left;
+    border-right:1px solid #080808;
+  }
+  
+  li:last-child {
+    border-right: none;
+  }
+  li a {
+    display: block;
+    color: rgb(10, 9, 9);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  li a:hover:not(.active) {
+background-color:  #f3e778;
+}
+.active {
+background-color: #eed814;
+} 
     .book {
       display: inline-block;
       margin: 10px;
@@ -19,6 +49,15 @@
   </style>
 </head>
 <body>
+  <nav>
+    <ul>
+    <li><a href = "index.html"> Main menu</a></li>
+  <li><a href="home.html">Home</a></li>
+  <li><a href="myBookshelf.html">My Bookshelf</a></li>
+  <li> <a class= "active" href = "milestone3.html"> Milestone 3</li>
+    </ul>
+  </nav>
+  <h1>Milestone 3</h1>
   <h1>Book Search</h1>
   <div>
     <input type="text" id="searchInput" placeholder="Search books...">
