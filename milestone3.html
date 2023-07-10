@@ -1,49 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Google Books API</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="script.js"></script>
+  <title>Book Search</title>
   <style>
-    .search-results {
-      margin-bottom: 20px;
-    }
-
-    .pagination {
-      margin-top: 20px;
-    }
-
     .book {
-      cursor: pointer;
-      margin-bottom: 10px;
+      display: inline-block;
+      margin: 10px;
+      width: 150px;
+      text-align: center;
     }
-
-    .book-details {
-      margin-top: 20px;
+    .book img {
+      max-width: 100px;
+      height: auto;
+    }
+    .pagination {
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <h1>Google Books API</h1>
-
-  <div class="search">
-    <input type="text" id="search-input" placeholder="Search books">
-    <button id="search-button">Search</button>
+  <h1>Book Search</h1>
+  <div>
+    <input type="text" id="searchInput" placeholder="Search books...">
+    <button id="searchBtn">Search</button>
   </div>
-
-  <div class="search-results"></div>
-
-  <div class="pagination"></div>
-
-  <div class="book-details"></div>
-
+  <div id="results"></div>
+  <div id="bookDetails"></div>
   <h2>Public Bookshelf</h2>
-  <div class="public-bookshelf"></div>
-  <input type="text" id="searchInput" placeholder="Search for books">
-<div id="pagination"></div>
-<div id="searchResults"></div>
-<div id="bookDetails"></div>
-<div id="bookshelf"></div>
+  <div id="bookshelf"></div>
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
+
+      
