@@ -157,14 +157,17 @@
             performSearch();
         });
 
-        $(document).on('click', '.book', function() {
-            var bookIndex = $(this).index();
-            var books = $('#results').children('.book');
-            var selectedBook = books.eq(bookIndex);
-            var bookData = data.items[bookIndex];
+        // Handle book click event
+  $(document).on('click', '.book', function() {
+    var bookIndex = $(this).index();
+    var selectedBook = (totalPages * 10) * currentPage + bookIndex;
 
-            displayBookDetails(bookData);
-        });
+    if (selectedBook >= 0 && selectedBook < totalItems) {
+      var book = data.items[selectedBook];
+      displayBookDetails(book);
+    }
+  });
+     
     </script>
 </body>
 </html>
