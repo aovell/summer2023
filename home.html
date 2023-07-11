@@ -125,19 +125,25 @@
         }
 
         function displayBookDetails(book) {
-            var detailsDiv = $('#bookDetails');
-            detailsDiv.empty();
+    var detailsHtml = '';
 
-            var title = book.volumeInfo.title;
-            var description = book.volumeInfo.description;
-            var authors = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown';
+    var title = book.volumeInfo.title;
+    var authors = (book.volumeInfo.authors) ? book.volumeInfo.authors.join(', ') : 'N/A';
+    var publisher = (book.volumeInfo.publisher) ? book.volumeInfo.publisher : 'N/A';
+    var publishedDate = (book.volumeInfo.publishedDate) ? book.volumeInfo.publishedDate : 'N/A';
+    var description = (book.volumeInfo.description) ? book.volumeInfo.description : 'N/A';
 
-            var bookDetailsHtml = '<h2>' + title + '</h2>' +
-                '<p>Authors: ' + authors + '</p>' +
-                '<p>Description: ' + description + '</p>';
+    detailsHtml += '<h2>' + title + '</h2>';
+    detailsHtml += '<p><strong>Authors:</strong> ' + authors + '</p>';
+    detailsHtml += '<p><strong>Publisher:</strong> ' + publisher + '</p>';
+    detailsHtml += '<p><strong>Published Date:</strong> ' + publishedDate + '</p>';
+    detailsHtml += '<p><strong>Description:</strong> ' + description + '</p>';
+    
+    $('#bookDetails').html(detailsHtml);
+  }
 
-            detailsDiv.html(bookDetailsHtml);
-        }
+
+  
 
         // Event handlers
         $('#searchBtn').click(function() {
