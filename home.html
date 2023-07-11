@@ -50,6 +50,7 @@
         </ul>
       </nav>
 <!-- index.html -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,6 +61,7 @@
             margin-top: 10px;
         }
 
+
         .pagination a {
             margin: 0 5px;
             padding: 5px 10px;
@@ -68,131 +70,119 @@
             color: #333;
         }
 
+
         .pagination a.active {
             background-color: #ccc;
         }
     </style>
 </head>
 <body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <h1>Book Search</h1>
+    <label for="searchInput">Search terms:</label>
+    <input type="text" id="searchInput">
+    <button id="searchBtn">Search</button>
 
-<input type="text" id="searchInput" placeholder="Enter search terms">
-<button id="searchBtn">Search</button>
-<div id="pagination"></div>
-<div id="results"></div>
-<div id="bookDetails"></div>
-<script>
-$(document).ready(function() {
-  var searchTerms = '';
-  var currentPage = 0;
-  var totalItems = 0;
-  var totalPages = 0;
 
-  // Function to perform book search
-  function searchBooks(terms, page) {
-    $.ajax({
-      url: 'https://www.googleapis.com/books/v1/volumes',
-      dataType: 'json',
-      data: {
-        q: terms,
-        startIndex: page * 10, // Adjust based on desired number of books per page
-        maxResults: 10 // Adjust based on desired number of books per page
-      },
-      success: function(data) {
-        displayResults(data.items);
-        updatePagination(page, data.totalItems);
-      },
-      error: function() {
-        $('#results').html('Error occurred during search.');
-      }
-    });
-  }
+    <div id="results"></div>
+    <div id="pagination" class="pagination"></div>
+    <div id="bookDetails"></div>
 
-  // Function to display search results
-  function displayResults(books) {
-    var resultsHtml = '';
 
-    if (books && books.length > 0) {
-      $.each(books, function(index, book) {
-        var title = book.volumeInfo.title;
-        var cover = (book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail) ? book.volumeInfo.imageLinks.thumbnail : '';
+    <script>
+        var currentPage = 1;
+        var searchTerm = '';
 
-        resultsHtml += '<div class="book">';
-        resultsHtml += '<img src="' + cover + '" alt="' + title + '">';
-        resultsHtml += '<span class="title">' + title + '</span>';
-        resultsHtml += '</div>';
-      });
-    } else {
-      resultsHtml = 'No books found.';
-    }
 
-    $('#results').html(resultsHtml);
-  }
+        function performSearch() {
+            var url = 'https://www.googleapis.com/books/v1/volumes?q=' + searchTerm + '&startIndex=' + ((currentPage - 1) * 10) + '&maxResults=10';
 
-  // Function to update pagination
-  function updatePagination(page, total) {
-    currentPage = page;
-    totalItems = total;
-    totalPages = Math.ceil(totalItems / 10); // Adjust based on desired number of books per page
 
-    var paginationHtml = '';
-    for (var i = 0; i < totalPages; i++) {
-      paginationHtml += '<a href="#" class="page-link" data-page="' + i + '">' + (i + 1) + '</a>';
-    }
-    $('#pagination').html(paginationHtml);
+            $.getJSON(url, function(data) {
+                var totalItems = data.totalItems;
+                var totalPages = Math.ceil(totalItems / 10);
+                var books = data.items;
 
-    // Highlight the current page
-    $('.page-link[data-page="' + currentPage + '"]').addClass('active');
-  }
 
-  // Function to display book details
-  function displayBookDetails(book) {
+                // Display search results
+                var resultsDiv = $('#results');
+                resultsDiv.empty();
+                for (var i = 0; i < books.length; i++) {
+                    var book = books[i];
+                    var title = book.volumeInfo.title;
+                    var coverImage = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : '';
+
+
+                    var bookHtml = '<div class="book">' +
+                        '<img src="' + coverImage + '">' +
+                        '<p>' + title + '</p>' +
+                        '</div>';
+
+
+                    resultsDiv.append(bookHtml);
+                }
+
+
+                // Display pagination
+                var paginationDiv = $('#pagination');
+                paginationDiv.empty();
+                for (var page = 1; page <= totalPages; page++) {
+                    var pageLink = '<a href="#" class="page-link">' + page + '</a>';
+                    if (page === currentPage) {
+                        pageLink = '<a href="#" class="page-link active">' + page + '</a>';
+                    }
+                    paginationDiv.append(pageLink);
+                }
+            });
+        }
+
+        function displayBookDetails(book) {
     var detailsHtml = '';
-
     var title = book.volumeInfo.title;
     var authors = (book.volumeInfo.authors) ? book.volumeInfo.authors.join(', ') : 'N/A';
     var publisher = (book.volumeInfo.publisher) ? book.volumeInfo.publisher : 'N/A';
     var publishedDate = (book.volumeInfo.publishedDate) ? book.volumeInfo.publishedDate : 'N/A';
     var description = (book.volumeInfo.description) ? book.volumeInfo.description : 'N/A';
 
+
     detailsHtml += '<h2>' + title + '</h2>';
     detailsHtml += '<p><strong>Authors:</strong> ' + authors + '</p>';
     detailsHtml += '<p><strong>Publisher:</strong> ' + publisher + '</p>';
     detailsHtml += '<p><strong>Published Date:</strong> ' + publishedDate + '</p>';
     detailsHtml += '<p><strong>Description:</strong> ' + description + '</p>';
-
+   
     $('#bookDetails').html(detailsHtml);
   }
 
-  // Perform initial search when the page loads
-  searchBooks('', 0);
 
-  // Handle search button click event
-  $('#searchBtn').click(function() {
-    searchTerms = $('#searchInput').val();
-    searchBooks(searchTerms, 0);
-  });
+        // Event handlers
+        $('#searchBtn').click(function() {
+            searchTerm = $('#searchInput').val();
+            currentPage = 1;
+            performSearch();
+        });
 
-  // Handle pagination click event
-  $(document).on('click', '.page-link', function(e) {
-    e.preventDefault();
-    var page = parseInt($(this).data('page'));
-    searchBooks(searchTerms, page);
-  });
 
-  // Handle book click event
+        $(document).on('click', '.page-link', function() {
+            currentPage = parseInt($(this).text());
+            performSearch();
+        });
+
+
+        // Handle book click event
   $(document).on('click', '.book', function() {
     var bookIndex = $(this).index();
     var selectedBook = (totalPages * 10) * currentPage + bookIndex;
+
 
     if (selectedBook >= 0 && selectedBook < totalItems) {
       var book = data.items[selectedBook];
       displayBookDetails(book);
     }
   });
-});
-</script>
+     
+    </script>
 </body>
+</html>
 
 
 <!-- myBookshelf.html -->
@@ -201,14 +191,13 @@ $(document).ready(function() {
     <head>
       <meta charset="UTF-8">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-      <script src="script.js"></script> 
+      <script src="script.js"></script>
     </head>
   </head>
-
-
   <body>
     <h1>My Bookshelf</h1>
     <div id="bookshelf"></div>
   </body>
   </html>
-  
+
+ 
