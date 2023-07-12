@@ -136,4 +136,79 @@ $.ajax({
   success: handleResponse
 });
         
-  
+//
+// JavaScript code
+$(document).ready(function() {
+  var searchResults = [
+    // Sample search results data
+    // Replace this with your actual data
+    { title: "Book 1", author: "Author 1", published: "2022", thumbnail: "book1.jpg", description: "Description of Book 1" },
+    { title: "Book 2", author: "Author 2", published: "2023", thumbnail: "book2.jpg", description: "Description of Book 2" },
+    { title: "Book 3", author: "Author 3", published: "2021", thumbnail: "book3.jpg", description: "Description of Book 3" },
+  ];
+
+  var bookshelf = [
+    // Sample bookshelf data
+    // Replace this with your actual data
+    { title: "Bookshelf Book 1", author: "Author 1", published: "2020", thumbnail: "bookshelf1.jpg" },
+    { title: "Bookshelf Book 2", author: "Author 2", published: "2019", thumbnail: "bookshelf2.jpg" },
+  ];
+
+  // Compile the templates
+  var searchResultsTemplate = Handlebars.compile($('#search-results-template').html());
+  var bookDetailsTemplate = Handlebars.compile($('#book-details-template').html());
+  var bookshelfTemplate = Handlebars.compile($('#bookshelf-template').html());
+
+  // Render the initial search results
+  renderSearchResults(searchResults);
+
+  // Handle click event on search result items
+  $(document).on('click', '.search-result-item', function() {
+    var bookIndex = $(this).index();
+    var book = searchResults[bookIndex];
+    var bookDetailsHtml = bookDetailsTemplate(book);
+    $('.book-details-container').html(bookDetailsHtml);
+  });
+
+  // Handle layout switching
+  $('.layout-switch').on('click', function() {
+    $('.layout-switch').removeClass('active');
+    $(this).addClass('active');
+    var layout = $(this).data('layout');
+    if (layout === 'grid') {
+      renderSearchResults(searchResults);
+    } else if (layout === 'list') {
+      renderSearchResults(searchResults, 'list');
+    }
+  });
+
+  // Render search results using the specified layout
+  function renderSearchResults(books, layout = 'grid') {
+    var searchResultsHtml = searchResultsTemplate({ books: books });
+    $('.search-results-container').html(searchResultsHtml);
+    $('.search-results-container').removeClass().addClass('search-results-container').addClass(layout);
+  }
+
+  // Render bookshelf
+  function renderBookshelf() {
+    var bookshelfHtml = bookshelfTemplate({ books: bookshelf });
+    $('.bookshelf-container').html(bookshelfHtml);
+  }
+
+  // Handle bookshelf tab click event
+  $('.bookshelf-tab').on('click', function() {
+    $('.tab').removeClass('active');
+    $(this).addClass('active');
+    $('.search-results-container').hide();
+    $('.bookshelf-container').show();
+    renderBookshelf();
+  });
+
+  // Handle search results tab click event
+  $('.search-results-tab').on('click', function() {
+    $('.tab').removeClass('active');
+    $(this).addClass('active');
+    $('.bookshelf-container').hide();
+    $('.search-results-container').show();
+  });
+});
