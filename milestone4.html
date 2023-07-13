@@ -7,6 +7,36 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 
 <style>
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #f8f2f2;
+}
+
+li {
+  float: left;
+  border-right:1px solid #080808;
+}
+
+li:last-child {
+  border-right: none;
+}
+li a {
+  display: block;
+  color: rgb(10, 9, 9);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #f3e778;
+}
+.active {
+  background-color: #eed814;
+}
 
 body{
 background:white
@@ -89,7 +119,13 @@ type: 'GET'
 </head>
 
 <body>
-
+  <nav>
+    <ul>
+      <li><a href = "index.html"> Main menu</a></li>
+      <li><a href="home.html">Home</a></li>
+      <li><a class = "active" href = "milestone4.html">4</a> </li>
+    </ul>
+  </nav>
 <h1><u>Book Search</u></h1> <input id="search" placeholder="type in here"> <button id="buttons" type="button"
 
 onclick="B_Search()">click here</button>
