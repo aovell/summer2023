@@ -87,6 +87,61 @@
     <div id="pagination" class="pagination"></div>
     <div id="bookDetails"></div>
 
+<!-- Search Results Template -->
+<script id="search-results-template" type="text/template">
+  {{#books}}
+  <div class="search-result-item">
+    <div class="book-thumbnail">
+      <img src="{{volumeInfo.imageLinks.thumbnail}}" alt="Book Thumbnail">
+    </div>
+    <div class="book-details">
+      <h3>{{volumeInfo.title}}</h3>
+      <p>Author: {{volumeInfo.authors}}</p>
+      <p>Published: {{volumeInfo.publishedDate}}</p>
+      <!-- Add any other relevant book details -->
+    </div>
+  </div>
+  {{/books}}
+</script>
+
+<!-- Book Details Template -->
+<script id="book-details-template" type="text/template">
+  <div class="book-details">
+    <h2>{{volumeInfo.title}}</h2>
+    <div class="book-info">
+      <div class="book-thumbnail">
+        <img src="{{volumeInfo.imageLinks.thumbnail}}" alt="Book Thumbnail">
+      </div>
+      <div class="book-details-info">
+        <p><strong>Author:</strong> {{volumeInfo.authors}}</p>
+        <p><strong>Published:</strong> {{volumeInfo.publishedDate}}</p>
+        <p><strong>ISBN:</strong> {{volumeInfo.industryIdentifiers.0.identifier}}</p>
+        <p><strong>Publisher:</strong> {{volumeInfo.publisher}}</p>
+        <p><strong>Language:</strong> {{volumeInfo.language}}</p>
+        <p><strong>Pages:</strong> {{volumeInfo.pageCount}}</p>
+        <p><strong>Description:</strong> {{volumeInfo.description}}</p>
+        <!-- Add more book details here -->
+      </div>
+    </div>
+  </div>
+</script>
+
+<!-- Bookshelf Template -->
+<script id="bookshelf-template" type="text/template">
+  {{#books}}
+  <div class="bookshelf-item">
+    <div class="book-thumbnail">
+      <img src="{{volumeInfo.imageLinks.thumbnail}}" alt="Book Thumbnail">
+    </div>
+    <div class="book-details">
+      <h3>{{volumeInfo.title}}</h3>
+      <p>Author: {{volumeInfo.authors}}</p>
+      <p>Published: {{volumeInfo.publishedDate}}</p>
+      <!-- Add any other relevant book details -->
+    </div>
+  </div>
+  {{/books}}
+</script>
 
     <script>
         var currentPage = 1;
@@ -184,97 +239,4 @@
 </body>
 </html>
 
-
-<!-- myBookshelf.html -->
-<!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-      <script src="script.js"></script>
-    </head>
-  </head>
-  <body>
-    <h1>My Bookshelf</h1>
-    <div id="bookshelf"></div>
-  </body>
-  </html>
-
- <!-- Search Results Template -->
-<script id="search-results-template" type="text/template">
-  {{#books}}
-  <div class="search-result-item">
-    <div class="book-thumbnail">
-      <img src="{{thumbnail}}" alt="Book Thumbnail">
-    </div>
-    <div class="book-details">
-      <h3>{{title}}</h3>
-      <p>Author: {{author}}</p>
-      <p>Published: {{published}}</p>
-      <!-- Add any other relevant book details -->
-    </div>
-  </div>
-  {{/books}}
-</script>
-
-<!-- Book Details Template -->
-<script id="book-details-template" type="text/template">
-  <div class="book-details">
-    <h2>{{title}}</h2>
-    <p>Author: {{author}}</p>
-    <p>Published: {{published}}</p>
-    <p>Description: {{description}}</p>
-    <!-- Add more book details here -->
-  </div>
-</script>
-
-<!-- Bookshelf Template -->
-<script id="bookshelf-template" type="text/template">
-  {{#books}}
-  <div class="bookshelf-item">
-    <div class="book-thumbnail">
-      <img src="{{thumbnail}}" alt="Book Thumbnail">
-    </div>
-    <div class="book-details">
-      <h3>{{title}}</h3>
-      <p>Author: {{author}}</p>
-      <p>Published: {{published}}</p>
-      <!-- Add any other relevant book details -->
-    </div>
-  </div>
-  {{/books}}
-</script>
-
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Book Search</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
-<body>
-  <div class="container">
-    <div class="tabs">
-      <div class="tab search-results-tab active">Search Results</div>
-      <div class="tab bookshelf-tab">Bookshelf</div>
-    </div>
-    <div class="search-results-container">
-      <!-- Search results will be rendered here -->
-    </div>
-    <div class="bookshelf-container" style="display: none;">
-      <!-- Bookshelf items will be rendered here -->
-    </div>
-    <div class="book-details-container">
-      <!-- Book details will be rendered here -->
-    </div>
-    <div class="layout-switches">
-      <div class="layout-switch active" data-layout="grid">Grid View</div>
-      <div class="layout-switch" data-layout="list">List View</div>
-    </div>
-  </div>
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
-  <script src="script.js"></script>
-</body>
-</html>
 

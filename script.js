@@ -215,64 +215,127 @@ $(document).ready(function() {
 
 
 //Milestone4
-// Sample data for demonstration
-var searchData = {
-  books: [
-    {
-      title: "Book 1",
-      author: "Author 1",
-      description: "Description 1"
-    },
-    {
-      title: "Book 2",
-      author: "Author 2",
-      description: "Description 2"
-    },
-    {
-      title: "Book 3",
-      author: "Author 3",
-      description: "Description 3"
+// JavaScript code
+$(document).ready(function() {
+  var searchResults = [];
+  var bookshelf = [];
+  var currentPage = 0;
+  var itemsPerPage = 10;
+  var totalItems = 0;
+  var currentQuery = '';
+
+  // Compile the templates
+  var searchResultsTemplate = Handlebars.compile($('#search-results-template').html());
+  var bookDetailsTemplate = Handlebars.compile($('#book-details-template').html());
+  var bookshelfTemplate = Handlebars.compile($('#bookshelf-template').html());
+
+  // Handle layout switching
+  $('.layout-switch').on('click', function() {
+    $('.layout-switch').removeClass('active');
+    $(this).addClass('active');
+    var layout = $(this).data('layout');
+    if (layout === 'grid') {
+      renderSearchResults(searchResults);
+    } else if (layout === 'list') {
+      renderSearchResults(searchResults, 'list');
     }
-  ]
-};
+  });
 
-// Function to render the search results based on the current view layout
-function renderSearchResults(viewLayout) {
-  var templateId = (viewLayout === 'grid') ? 'searchResultsTemplateGrid' : 'searchResultsTemplateList';
-  var template = document.getElementById(templateId).innerHTML;
-  var rendered = Mustache.render(template, searchData);
-  document.getElementById('searchResults').innerHTML = rendered;
-}
+  // Handle click event on search result items
+  $(document).on('click', '.search-result-item', function() {
+    var bookIndex = $(this).index();
+    var book = searchResults[bookIndex];
+    var bookDetailsHtml = bookDetailsTemplate(book);
+    $('.book-details-container').html(bookDetailsHtml);
+  });
 
-// Function to render the book details
-function renderBookDetails(book) {
-  var template = document.getElementById('bookDetailsTemplate').innerHTML;
-  var rendered = Mustache.render(template, book);
-  document.getElementById('bookDetails').innerHTML = rendered;
-}
+  // Handle search form submission
+  $('#search-form').on('submit', function(e) {
+    e.preventDefault();
+    currentQuery = $('#search-input').val();
+    currentPage = 0;
+    fetchSearchResults(currentQuery, currentPage, itemsPerPage);
+  });
 
-// Function to render the bookshelf items
-function renderBookshelfItems() {
-  var template = document.getElementById('bookshelfItemsTemplate').innerHTML;
-  var rendered = Mustache.render(template, searchData);
-  document.getElementById('bookshelfItems').innerHTML = rendered;
-}
+  // Handle load more button click event
+  $('#load-more').on('click', function() {
+    currentPage++;
+    fetchSearchResults(currentQuery, currentPage, itemsPerPage);
+  });
 
-// Event listener for search result item click
-document.getElementById('searchResults').addEventListener('click', function (event) {
-  if (event.target.classList.contains('search-result-item')) {
-    var index = Array.from(event.target.parentNode.children).indexOf(event.target);
-    var selectedBook = searchData.books[index];
-    renderBookDetails(selectedBook);
+  // Fetch search results from Google Books API
+  function fetchSearchResults(query, page, itemsPerPage) {
+    var startIndex = page * itemsPerPage;
+    var url = `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${startIndex}&maxResults=${itemsPerPage}`;
+
+    $.ajax({
+      url: url,
+      method: 'GET',
+      success: function(data) {
+        searchResults = data.items || [];
+        totalItems = data.totalItems || 0;
+        renderSearchResults(searchResults);
+        updateLoadMoreButton();
+      },
+      error: function(error) {
+        console.log(error);
+      }
+    });
   }
-});
 
-// Event listener for view layout switch
-document.getElementById('viewLayoutSwitch').addEventListener('change', function (event) {
-  var viewLayout = event.target.value;
-  renderSearchResults(viewLayout);
-});
+  // Render search results using the specified layout
+  function renderSearchResults(books, layout = 'grid') {
+    var searchResultsHtml = searchResultsTemplate({ books: books });
+    $('.search-results-container').html(searchResultsHtml);
+    $('.search-results-container').removeClass().addClass('search-results-container').addClass(layout);
+  }
 
-// Initial rendering
-renderSearchResults('grid');
-renderBookshelfItems();
+  // Update the load more button visibility based on the current page and total items
+  function updateLoadMoreButton() {
+    if ((currentPage + 1) * itemsPerPage >= totalItems) {
+      $('#load-more').hide();
+    } else {
+      $('#load-more').show();
+    }
+  }
+
+  // Fetch bookshelf data from Google Books API
+  function fetchBookshelf() {
+    var url = 'https://www.googleapis.com/books/v1/users/USER_ID/bookshelves/0/volumes';
+
+    $.ajax({
+      url: url,
+      method: 'GET',
+      success: function(data) {
+        bookshelf = data.items || [];
+        renderBookshelf();
+      },
+      error: function(error) {
+        console.log(error);
+      }
+    });
+  }
+
+  // Render bookshelf
+  function renderBookshelf() {
+    var bookshelfHtml = bookshelfTemplate({ books: bookshelf });
+    $('.bookshelf-container').html(bookshelfHtml);
+  }
+
+  // Handle bookshelf tab click event
+  $('.bookshelf-tab').on('click', function() {
+    $('.tab').removeClass('active');
+    $(this).addClass('active');
+    $('.search-results-container').hide();
+    $('.bookshelf-container').show();
+    fetchBookshelf();
+  });
+
+  // Handle search results tab click event
+  $('.search-results-tab').on('click', function() {
+    $('.tab').removeClass('active');
+    $(this).addClass('active');
+    $('.bookshelf-container').hide();
+    $('.search-results-container').show();
+  });
+});

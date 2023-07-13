@@ -73,92 +73,153 @@ background:#f3e778;;
 
 </style>
 
-<script>
-function B_Search() {
-var search = document.getElementById('search').value;
-var result = document.getElementById('results');
-var resultString = "";
-
-console.log(search);
-
-$.ajax({
-
-url:  'https://www.googleapis.com/books/v1/volumes?q=' + searchTerm + '&startIndex=' + ((currentPage - 1) * 10) + '&maxResults=10',
-
-dataType: "json",
-success: function(data) { console.log(data);
-
-for (i = 0; i < data.items.length; i++) {
-
-resultString += "<h2>" + data.items[i].volumeInfo.title + "</h2>";
-resultString += "<h2>" + data.items[i].volumeInfo.authors + "</h2>";
-resultString += "<div><b>Publisher:</b> " + data.items[i].volumeInfo.publisher + "</div>";
-resultString += "<div><b>publishedDate: </b>" + data.items[i].volumeInfo.publishedDate + "</div>";
-resultString += "<div><b>Description: </b>" + data.items[i].volumeInfo.description + "</div>";
-resultString += '<div><img src="' + data.items[i].volumeInfo.imageLinks.thumbnail + '"/></div>';
-
-if (data.items[i].saleInfo.saleability == "FOR SALE") {
-
-resultString += "<div><b>Price: </b>" + data.items[i].saleInfo.retailPrice.amount + data.items[i].saleInfo.retailPrice.currencyCode + "</div>";
-
-}
-
-else {
-
-resultString += "<div>Not for Sale</div>"
-
-} } result.innerHTML = resultString; },
-
-type: 'GET'
-
-});
-
-}
-
+<!-- Search Results Template -->
+<script id="search-results-template" type="text/template">
+  {{#books}}
+  <div class="search-result-item">
+    <div class="book-thumbnail">
+      <img src="{{volumeInfo.imageLinks.thumbnail}}" alt="Book Thumbnail">
+    </div>
+    <div class="book-details">
+      <h3>{{volumeInfo.title}}</h3>
+      <p>Author: {{volumeInfo.authors}}</p>
+      <p>Published: {{volumeInfo.publishedDate}}</p>
+      <!-- Add any other relevant book details -->
+    </div>
+  </div>
+  {{/books}}
 </script>
 
+<!-- Book Details Template -->
+<script id="book-details-template" type="text/template">
+  <div class="book-details">
+    <h2>{{volumeInfo.title}}</h2>
+    <div class="book-info">
+      <div class="book-thumbnail">
+        <img src="{{volumeInfo.imageLinks.thumbnail}}" alt="Book Thumbnail">
+      </div>
+      <div class="book-details-info">
+        <p><strong>Author:</strong> {{volumeInfo.authors}}</p>
+        <p><strong>Published:</strong> {{volumeInfo.publishedDate}}</p>
+        <p><strong>ISBN:</strong> {{volumeInfo.industryIdentifiers.0.identifier}}</p>
+        <p><strong>Publisher:</strong> {{volumeInfo.publisher}}</p>
+        <p><strong>Language:</strong> {{volumeInfo.language}}</p>
+        <p><strong>Pages:</strong> {{volumeInfo.pageCount}}</p>
+        <p><strong>Description:</strong> {{volumeInfo.description}}</p>
+        <!-- Add more book details here -->
+      </div>
+    </div>
+  </div>
+</script>
+
+<!-- Bookshelf Template -->
+<script id="bookshelf-template" type="text/template">
+  {{#books}}
+  <div class="bookshelf-item">
+    <div class="book-thumbnail">
+      <img src="{{volumeInfo.imageLinks.thumbnail}}" alt="Book Thumbnail">
+    </div>
+    <div class="book-details">
+      <h3>{{volumeInfo.title}}</h3>
+      <p>Author: {{volumeInfo.authors}}</p>
+      <p>Published: {{volumeInfo.publishedDate}}</p>
+      <!-- Add any other relevant book details -->
+    </div>
+  </div>
+  {{/books}}
+</script>
+
+
+<!-- myBookshelf.html -->
+<!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="script.js"></script>
+    </head>
+  </head>
+  <body>
+    <h1>My Bookshelf</h1>
+    <div id="bookshelf"></div>
+  </body>
+  </html>
+
+ <!-- Search Results Template -->
+<script id="search-results-template" type="text/template">
+  {{#books}}
+  <div class="search-result-item">
+    <div class="book-thumbnail">
+      <img src="{{thumbnail}}" alt="Book Thumbnail">
+    </div>
+    <div class="book-details">
+      <h3>{{title}}</h3>
+      <p>Author: {{author}}</p>
+      <p>Published: {{published}}</p>
+      <!-- Add any other relevant book details -->
+    </div>
+  </div>
+  {{/books}}
+</script>
+
+<!-- Book Details Template -->
+<script id="book-details-template" type="text/template">
+  <div class="book-details">
+    <h2>{{title}}</h2>
+    <p>Author: {{author}}</p>
+    <p>Published: {{published}}</p>
+    <p>Description: {{description}}</p>
+    <!-- Add more book details here -->
+  </div>
+</script>
+
+<!-- Bookshelf Template -->
+<script id="bookshelf-template" type="text/template">
+  {{#books}}
+  <div class="bookshelf-item">
+    <div class="book-thumbnail">
+      <img src="{{thumbnail}}" alt="Book Thumbnail">
+    </div>
+    <div class="book-details">
+      <h3>{{title}}</h3>
+      <p>Author: {{author}}</p>
+      <p>Published: {{published}}</p>
+      <!-- Add any other relevant book details -->
+    </div>
+  </div>
+  {{/books}}
+</script>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book Search</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
-
 <body>
-  <nav>
-    <ul>
-      <li><a href = "index.html"> Main menu</a></li>
-      <li><a href="home.html">Home</a></li>
-      <li><a class = "active" href = "milestone4.html">4</a> </li>
-    </ul>
-  </nav>
-<h1><u>Book Search</u></h1> <input id="search" placeholder="type in here"> <button id="buttons" type="button"
+  <div class="container">
+    <div class="tabs">
+      <div class="tab search-results-tab active">Search Results</div>
+      <div class="tab bookshelf-tab">Bookshelf</div>
+    </div>
+    <div class="search-results-container">
+      <!-- Search results will be rendered here -->
+    </div>
+    <div class="bookshelf-container" style="display: none;">
+      <!-- Bookshelf items will be rendered here -->
+    </div>
+    <div class="book-details-container">
+      <!-- Book details will be rendered here -->
+    </div>
+    <div class="layout-switches">
+      <div class="layout-switch active" data-layout="grid">Grid View</div>
+      <div class="layout-switch" data-layout="list">List View</div>
+    </div>
+  </div>
 
-onclick="B_Search()">click here</button>
-
-<div id="results"></div>
-
-<form>
-
-<input type="button" value="My BookShelf" onclick="window.location.href='https://yomi4294.github.io/kennesaw.io/M2P3.html'" />
-
-</form>
-
-<div class ="wrap">
-<div class ="pagination"><a href ="#" id= "page1"> 1 </a></div>
-<div class ="pagination"><a href ="#" id=" page2"> 2 </a></div>
-<div class ="pagination"><a href ="#" id= "page3"> 3 </a></div>
-<div class ="pagination"><a href ="#" id= "page4"> 4 </a></div>
-<div class ="pagination-last"><a href ="#" id= "page5"> 5 </a></div>
-</div>
-
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+  <script src="script.js"></script>
 </body>
-
-<style>
-
-body {
-
-background-image: url("image1.jpg");
-;
-}
-
-</style>
-
 </html>
-
 
