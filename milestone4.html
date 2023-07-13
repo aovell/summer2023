@@ -83,7 +83,8 @@ console.log(search);
 
 $.ajax({
 
-url: "https://www.googleapis.com/books/v1/volumes?q=id:"+ search,
+url:  'https://www.googleapis.com/books/v1/volumes?q=' + searchTerm + '&startIndex=' + ((currentPage - 1) * 10) + '&maxResults=10',
+
 dataType: "json",
 success: function(data) { console.log(data);
 
