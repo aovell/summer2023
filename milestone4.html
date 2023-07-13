@@ -91,26 +91,73 @@
     {{/books}}
   </script>
 
-  <script>
-    // Event listener for the search button
-    document.getElementById('search-button').addEventListener('click', function() {
-      // Retrieve the search term from the input field
-      var searchTerm = document.getElementById('search-input').value;
+
+<div id="search-results">
+  <!-- The search results will be dynamically populated here -->
+</div>
+
+<div id="pagination">
+  <!-- The pagination controls will be dynamically populated here -->
+</div>
+<!-- Add this code to the end of index.html, just before the closing </body> tag -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+  // Global variables to track the current search term and page
+  var searchTerm = "";
+  var currentPage = 1;
+  var resultsPerPage = 10; // Change this value as per your preference
   
-      // Construct the service request URL based on the search term
-      var url = 'https://www.googleapis.com/books/v1/volumes?q=' + encodeURIComponent(searchTerm);
+  // Function to perform a book search based on the user's input
+  function searchBooks() {
+    searchTerm = $("#search-input").val();
+    currentPage = 1; // Reset to the first page when performing a new search
+    getSearchResults();
+  }
   
-      // Call the service to fetch the search results (using AJAX)
-      $.getJSON(url, function(response) {
-        // Get the array of books from the response
-        var books = response.items;
+  // Function to fetch search results from the Google Books API
+  function getSearchResults() {
+    var startIndex = (currentPage - 1) * resultsPerPage;
+    var url = "https://www.googleapis.com/books/v1/volumes?q=" + searchTerm + "&startIndex=" + startIndex + "&maxResults=" + resultsPerPage;
+    
+    // Make an AJAX request to fetch the search results
+    $.ajax({
+      url: url,
+      dataType: "json",
+      success: function(response) {
+        displaySearchResults(response);
+        renderPagination(response.totalItems);
+      },
+      error: function() {
+        $("#search-results").html("An error occurred while fetching the search results.");
+      }
+    });
+  }
   
-        // Select the book template using Moustache.js
-        var template = document.getElementById('book-template').innerHTML;
-  
-        // Render the template with the book data and insert it into the search results container
-        document.getElementById('search-results').innerHTML = Mustache.render(template, { books: books });
+  // Function to display the search results on the page
+  function displaySearchResults(data) {
+    var resultsContainer = $("#search-results");
+    resultsContainer.empty();
+    
+    if (data.items && data.items.length > 0) {
+      $.each(data.items, function(index, item) {
+        var title = item.volumeInfo.title;
+        var description = item.volumeInfo.description;
+        var coverImage = item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : "";
+        
+        var resultItem = $("<div>").addClass("result-item");
+        var titleElement = $("<h3>").text(title);
+        var descriptionElement = $("<p>").text(description);
+        var coverImageElement = $("<img>").attr("src", coverImage);
+        
+        resultItem.append(titleElement, coverImageElement, descriptionElement);
+        resultsContainer.append(resultItem);
       });
+    } else {
+      resultsContainer.html("No results found.");
+    }
+  }
     });
   </script>
 <div id="search-container">
