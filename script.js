@@ -295,6 +295,7 @@ $(document).ready(function () {
   }
 
   // Switch view layout between grid view and list view
+  /*
   $('#grid-view-btn').click(function () {
     currentView = 'grid-view';
     $('#search-results').removeClass('list-view').addClass('grid-view');
@@ -304,4 +305,20 @@ $(document).ready(function () {
     currentView = 'list-view';
     $('#search-results').removeClass('grid-view').addClass('list-view');
   });
+});*/
+function handlePageChange() {
+  // Update the current page number
+  currentPage = parseInt(pageNumberSelect.value);
+
+  // Re-render the search results with the updated page number
+  renderSearchResults();
+}
+
+function switchToGridView() {
+  searchResultsContainer.className = 'grid-view';
+}
+
+function switchToListView() {
+  searchResultsContainer.className = 'list-view';
+}
 });
