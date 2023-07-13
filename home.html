@@ -133,5 +133,42 @@ $(document).ready(function() {
     <p>{{description}}</p>
   </div>
 </script>
+<div id="search-container">
+  <input type="text" id="search-input" placeholder="Enter search terms">
+  <button id="search-button">Search</button>
+  <div id="view-toggle">
+    <button id="grid-view-button" class="active">Grid View</button>
+    <button id="list-view-button">List View</button>
+  </div>
+</div>
+<div id="search-results" class="grid-view"></div>
+    <script>
+      // Event listeners for the view toggle buttons
+document.getElementById('grid-view-button').addEventListener('click', function() {
+  toggleView('grid-view');
+});
+
+document.getElementById('list-view-button').addEventListener('click', function() {
+  toggleView('list-view');
+});
+
+// Function to toggle between grid and list view
+function toggleView(view) {
+  // Remove the 'active' class from all buttons
+  var buttons = document.getElementById('view-toggle').getElementsByTagName('button');
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].classList.remove('active');
+  }
+
+  // Add the 'active' class to the clicked button
+  event.target.classList.add('active');
+
+  // Toggle the view class on the search results container
+  var searchResults = document.getElementById('search-results');
+  searchResults.classList.remove('grid-view', 'list-view');
+  searchResults.classList.add(view);
+}
+
+    </script>
 </body>
 </html>
