@@ -220,7 +220,7 @@ $(document).ready(function() {
 //4
 $(document).ready(function () {
   // Variables
-  var API_KEY = 'YOUR_GOOGLE_BOOKS_API_KEY';
+  var API_KEY = '114034464592823534860';
   var ITEMS_PER_PAGE = 20; // Number of results per page
   var currentPage = 1;
   var currentView = 'grid-view'; // Initial view layout
@@ -295,7 +295,7 @@ $(document).ready(function () {
   }
 
   // Switch view layout between grid view and list view
-  /*
+  
   $('#grid-view-btn').click(function () {
     currentView = 'grid-view';
     $('#search-results').removeClass('list-view').addClass('grid-view');
@@ -305,20 +305,4 @@ $(document).ready(function () {
     currentView = 'list-view';
     $('#search-results').removeClass('grid-view').addClass('list-view');
   });
-});*/
-function handlePageChange() {
-  // Update the current page number
-  currentPage = parseInt(pageNumberSelect.value);
-
-  // Re-render the search results with the updated page number
-  renderSearchResults();
-}
-
-function switchToGridView() {
-  searchResultsContainer.className = 'grid-view';
-}
-
-function switchToListView() {
-  searchResultsContainer.className = 'list-view';
-}
 });

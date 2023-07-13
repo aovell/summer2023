@@ -1,62 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Book Search</title>
+  <title>My bookshelf</title>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <style>
-  h1 {
-  text-align: center;
-}
 
-#search-container {
-  text-align: center;
-  margin-bottom: 20px;
-}
 
-#view-switch {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-#results-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-#results-container.list-view {
-  display: block;
-}
-
-.book {
-  border: 1px solid #ccc;
-  padding: 10px;
-}
-
-.book img {
-  width: 100px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-}
-
-.book h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.book p {
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-#grid-view-button,
-#list-view-button {
-  margin-right: 10px;
-}
-
-l {
+ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -88,85 +39,25 @@ l {
   }
 
 </style>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Bookshelf</title>
+  <style>
+    /* Add any desired CSS styles for book display */
+  </style>
+</head>
 <body>
   <nav>
     <ul>
       <li><a href = "index.html"> Main menu</a></li>
       <li><a href="home.html">Home</a></li>
-      <li><a  class="active" href = "milestone4.html">4</a> </li>
+      <li><a class="active" href = "milestone4.html">4</a> </li>
     </ul>
   </nav>
-  <h1>Book Search</h1>
+  <div id="bookshelf"></div>
   
-  <div id="search-container">
-    <input type="text" id="search-input" placeholder="Enter search terms...">
-    <button id="search-button">Search</button>
-  </div>
-  
-  <div id="view-switch">
-    <button id="grid-view-button">Grid View</button>
-    <button id="list-view-button">List View</button>
-  </div>
-  
-  <div id="results-container"></div>
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="script.js"></script>
-
-  <script>
-    $(document).ready(function() {
-  var API_KEY = '114034464592823534860';
-  var resultsContainer = $('#results-container');
-  var searchButton = $('#search-button');
-  var searchInput = $('#search-input');
-  var gridViewButton = $('#grid-view-button');
-  var listViewButton = $('#list-view-button');
-  
-  searchButton.click(function() {
-    var searchTerm = searchInput.val();
-    var url = 'https://www.googleapis.com/books/v1/volumes?q=' + searchTerm + '&key=' + API_KEY;
-
-    $.get(url, function(data) {
-      resultsContainer.empty();
-
-      if (data.items) {
-        var books = data.items;
-        var numResults = Math.min(60, books.length);
-        for (var i = 0; i < numResults; i++) {
-          var book = books[i].volumeInfo;
-          var title = book.title;
-          var description = book.description ? book.description : 'No description available';
-          var imageLink = book.imageLinks ? book.imageLinks.smallThumbnail : '';
-          
-          var bookElement = $('<div class="book"></div>');
-          var titleElement = $('<h2></h2>').text(title);
-          var descriptionElement = $('<p></p>').text(description);
-          var imageElement = $('<img>').attr('src', imageLink);
-          
-          bookElement.append(titleElement, descriptionElement, imageElement);
-          resultsContainer.append(bookElement);
-        }
-      }
-      else {
-        resultsContainer.text('No results found.');
-      }
-    });
-  });
-  
-  gridViewButton.click(function() {
-    resultsContainer.removeClass('list-view');
-    resultsContainer.addClass('grid-view');
-  });
-  
-  listViewButton.click(function() {
-    resultsContainer.removeClass('grid-view');
-    resultsContainer.addClass('list-view');
-  });
-});
-
-  </script>
-
 </body>
 </html>
-
-  
