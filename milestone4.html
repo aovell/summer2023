@@ -2,7 +2,70 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://github.com/janl/mustache.js.git">
   </head>
+  <style>
+    #search-results {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+}
+
+.book {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.book img {
+  width: 100%;
+  max-height: 200px;
+}
+
+.book h3 {
+  margin-top: 10px;
+}
+
+.book p {
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+    #view-toggle {
+  margin-top: 10px;
+}
+
+#view-toggle button {
+  margin-right: 10px;
+}
+
+.grid-view .book {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+}
+
+.list-view .book {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.list-view .book img {
+  width: 80px;
+  margin-right: 10px;
+}
+
+.list-view .book h3 {
+  margin: 0;
+}
+
+.list-view .book p {
+  margin: 5px 0 0 0;
+}
+
+  </style>
 <body>
   <nav>
     <ul>
@@ -11,38 +74,81 @@
       <li><a class="active" href = "milestone4.html">4</a> </li>
     </ul>
   </nav>
-<!-- Book search form -->
-<div class="search-form">
+  <div id="search-container">
+    <input type="text" id="search-input" placeholder="Enter search terms">
+    <button id="search-button">Search</button>
+  </div>
+  <div id="search-results"></div>
+
+  
+  <script id="book-template" type="text/template">
+    {{#books}}
+    <div class="book">
+      <img src="{{thumbnail}}" alt="Book Cover">
+      <h3>{{title}}</h3>
+      <p>{{description}}</p>
+    </div>
+    {{/books}}
+  </script>
+
+  <script>
+    // Event listener for the search button
+    document.getElementById('search-button').addEventListener('click', function() {
+      // Retrieve the search term from the input field
+      var searchTerm = document.getElementById('search-input').value;
+  
+      // Construct the service request URL based on the search term
+      var url = 'https://www.googleapis.com/books/v1/volumes?q=' + encodeURIComponent(searchTerm);
+  
+      // Call the service to fetch the search results (using AJAX)
+      $.getJSON(url, function(response) {
+        // Get the array of books from the response
+        var books = response.items;
+  
+        // Select the book template using Moustache.js
+        var template = document.getElementById('book-template').innerHTML;
+  
+        // Render the template with the book data and insert it into the search results container
+        document.getElementById('search-results').innerHTML = Mustache.render(template, { books: books });
+      });
+    });
+  </script>
+<div id="search-container">
   <input type="text" id="search-input" placeholder="Enter search terms">
   <button id="search-button">Search</button>
-</div>
-
-<!-- Page number selection -->
-<div class="page-number">
-  <label for="page-select">Page:</label>
-  <select id="page-select">
-    <!-- Populate options dynamically using JavaScript -->
-  </select>
-</div>
-
-<!-- Display search results -->
-<div id="search-results"></div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="script.js"></script>
-
-<script id="book-template" type="text/template">
-  <div class="book-item">
-    <img src="{{imageLinks.smallThumbnail}}" alt="{{title}}">
-    <h3>{{title}}</h3>
-    <p>{{description}}</p>
+  <div id="view-toggle">
+    <button id="grid-view-button" class="active">Grid View</button>
+    <button id="list-view-button">List View</button>
   </div>
-</script>
-<!-- Switch view layout buttons -->
-<div class="view-buttons">
-  <button id="grid-view-btn">Grid View</button>
-  <button id="list-view-btn">List View</button>
 </div>
+<div id="search-results" class="grid-view"></div>
+    <script>
+      // Event listeners for the view toggle buttons
+document.getElementById('grid-view-button').addEventListener('click', function() {
+  toggleView('grid-view');
+});
 
+document.getElementById('list-view-button').addEventListener('click', function() {
+  toggleView('list-view');
+});
+
+// Function to toggle between grid and list view
+function toggleView(view) {
+  // Remove the 'active' class from all buttons
+  var buttons = document.getElementById('view-toggle').getElementsByTagName('button');
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].classList.remove('active');
+  }
+
+  // Add the 'active' class to the clicked button
+  event.target.classList.add('active');
+
+  // Toggle the view class on the search results container
+  var searchResults = document.getElementById('search-results');
+  searchResults.classList.remove('grid-view', 'list-view');
+  searchResults.classList.add(view);
+}
+
+    </script>
 </body>
 </html>
