@@ -1,0 +1,127 @@
+<html>
+<head>
+<title>Google Books Search</title>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js">
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+
+<style>
+
+body{
+background:white
+}
+.wrap{
+max-width:400px;
+margin:auto;
+margin-top:10px;
+}
+
+.pagination, pagination-last{
+float:left;
+}
+
+a{
+
+text-decoration:none;
+padding:15px 20px;
+border:1px solid black;
+border-right:none;
+background:#f2f2f2;
+font-size:18px;
+font-weight:bold;
+}
+
+.pagination-last a{
+border-right:1px solid black;
+
+}
+
+a:hover {
+background:#f3e778;;
+}
+
+</style>
+
+<script>
+function B_Search() {
+var search = document.getElementById('search').value;
+var result = document.getElementById('results');
+var resultString = "";
+
+console.log(search);
+
+$.ajax({
+
+url: "https://www.googleapis.com/books/v1/volumes?q=id:"+ search,
+dataType: "json",
+success: function(data) { console.log(data);
+
+for (i = 0; i < data.items.length; i++) {
+
+resultString += "<h2>" + data.items[i].volumeInfo.title + "</h2>";
+resultString += "<h2>" + data.items[i].volumeInfo.authors + "</h2>";
+resultString += "<div><b>Publisher:</b> " + data.items[i].volumeInfo.publisher + "</div>";
+resultString += "<div><b>publishedDate: </b>" + data.items[i].volumeInfo.publishedDate + "</div>";
+resultString += "<div><b>Description: </b>" + data.items[i].volumeInfo.description + "</div>";
+resultString += '<div><img src="' + data.items[i].volumeInfo.imageLinks.thumbnail + '"/></div>';
+
+if (data.items[i].saleInfo.saleability == "FOR SALE") {
+
+resultString += "<div><b>Price: </b>" + data.items[i].saleInfo.retailPrice.amount + data.items[i].saleInfo.retailPrice.currencyCode + "</div>";
+
+}
+
+else {
+
+resultString += "<div>Not for Sale</div>"
+
+} } result.innerHTML = resultString; },
+
+type: 'GET'
+
+});
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+<h1><u>Book Search</u></h1> <input id="search" placeholder="type in here"> <button id="buttons" type="button"
+
+onclick="B_Search()">click here</button>
+
+<div id="results"></div>
+
+<form>
+
+<input type="button" value="My BookShelf" onclick="window.location.href='https://yomi4294.github.io/kennesaw.io/M2P3.html'" />
+
+</form>
+
+<div class ="wrap">
+<div class ="pagination"><a href ="#" id= "page1"> 1 </a></div>
+<div class ="pagination"><a href ="#" id=" page2"> 2 </a></div>
+<div class ="pagination"><a href ="#" id= "page3"> 3 </a></div>
+<div class ="pagination"><a href ="#" id= "page4"> 4 </a></div>
+<div class ="pagination-last"><a href ="#" id= "page5"> 5 </a></div>
+</div>
+
+</body>
+
+<style>
+
+body {
+
+background-image: url("image1.jpg");
+;
+}
+
+</style>
+
+</html>
+
+

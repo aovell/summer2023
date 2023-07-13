@@ -212,3 +212,67 @@ $(document).ready(function() {
     $('.search-results-container').show();
   });
 });
+
+
+//Milestone4
+// Sample data for demonstration
+var searchData = {
+  books: [
+    {
+      title: "Book 1",
+      author: "Author 1",
+      description: "Description 1"
+    },
+    {
+      title: "Book 2",
+      author: "Author 2",
+      description: "Description 2"
+    },
+    {
+      title: "Book 3",
+      author: "Author 3",
+      description: "Description 3"
+    }
+  ]
+};
+
+// Function to render the search results based on the current view layout
+function renderSearchResults(viewLayout) {
+  var templateId = (viewLayout === 'grid') ? 'searchResultsTemplateGrid' : 'searchResultsTemplateList';
+  var template = document.getElementById(templateId).innerHTML;
+  var rendered = Mustache.render(template, searchData);
+  document.getElementById('searchResults').innerHTML = rendered;
+}
+
+// Function to render the book details
+function renderBookDetails(book) {
+  var template = document.getElementById('bookDetailsTemplate').innerHTML;
+  var rendered = Mustache.render(template, book);
+  document.getElementById('bookDetails').innerHTML = rendered;
+}
+
+// Function to render the bookshelf items
+function renderBookshelfItems() {
+  var template = document.getElementById('bookshelfItemsTemplate').innerHTML;
+  var rendered = Mustache.render(template, searchData);
+  document.getElementById('bookshelfItems').innerHTML = rendered;
+}
+
+// Event listener for search result item click
+document.getElementById('searchResults').addEventListener('click', function (event) {
+  if (event.target.classList.contains('search-result-item')) {
+    var index = Array.from(event.target.parentNode.children).indexOf(event.target);
+    var selectedBook = searchData.books[index];
+    renderBookDetails(selectedBook);
+  }
+});
+
+// Event listener for view layout switch
+document.getElementById('viewLayoutSwitch').addEventListener('change', function (event) {
+  var viewLayout = event.target.value;
+  renderSearchResults(viewLayout);
+});
+
+// Initial rendering
+renderSearchResults('grid');
+renderBookshelfItems();
