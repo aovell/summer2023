@@ -215,3 +215,93 @@ $(document).ready(function() {
     });
   }
 });
+
+
+//4
+$(document).ready(function () {
+  // Variables
+  var API_KEY = 'YOUR_GOOGLE_BOOKS_API_KEY';
+  var ITEMS_PER_PAGE = 20; // Number of results per page
+  var currentPage = 1;
+  var currentView = 'grid-view'; // Initial view layout
+
+  // Event listener for search button click
+  $('#search-button').click(function () {
+    var searchTerm = $('#search-input').val();
+    searchBooks(searchTerm);
+  });
+
+  // Event listener for page number selection
+  $('#page-select').change(function () {
+    currentPage = parseInt($(this).val());
+    searchBooks($('#search-input').val());
+  });
+
+  // Function to search books
+  function searchBooks(searchTerm) {
+    var startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    var url =
+      'https://www.googleapis.com/books/v1/volumes?q=' +
+      searchTerm +
+      '&startIndex=' +
+      startIndex +
+      '&maxResults=' +
+      ITEMS_PER_PAGE +
+      '&key=' +
+      API_KEY;
+
+    // Make AJAX request to the Google Books API
+    $.ajax({
+      url: url,
+      dataType: 'json',
+      success: function (data) {
+        displaySearchResults(data.items);
+        displayPagination(data.totalItems);
+      },
+      error: function (error) {
+        console.log('Error:', error);
+      },
+    });
+  }
+
+  // Function to display search results
+  function displaySearchResults(books) {
+    var template = $('#book-template').html();
+    var html = '';
+
+    // Use Mustache.js to render the template
+    books.forEach(function (book) {
+      html += Mustache.render(template, book.volumeInfo);
+    });
+
+    // Clear previous results and append the new results
+    $('#search-results').html(html);
+  }
+
+  // Function to display pagination
+  function displayPagination(totalItems) {
+    var totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+    var pageSelect = $('#page-select');
+    var options = '';
+
+    // Populate page number options
+    for (var i = 1; i <= totalPages; i++) {
+      options += '<option value="' + i + '">' + i + '</option>';
+    }
+
+    // Update the page number selection
+    pageSelect.html(options);
+    pageSelect.val(currentPage);
+  }
+
+  // Switch view layout between grid view and list view
+  $('#grid-view-btn').click(function () {
+    currentView = 'grid-view';
+    $('#search-results').removeClass('list-view').addClass('grid-view');
+  });
+
+  $('#list-view-btn').click(function () {
+    currentView = 'list-view';
+    $('#search-results').removeClass('grid-view').addClass('list-view');
+  });
+});

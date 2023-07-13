@@ -111,3 +111,44 @@ ul {
     margin-bottom: 5px;
   }
   
+
+  /* Book search form */
+.search-form {
+    margin-bottom: 20px;
+  }
+  
+  .search-form input[type="text"] {
+    padding: 5px;
+    width: 300px;
+  }
+  
+  .search-form button {
+    padding: 5px 10px;
+  }
+  
+  /* Page number selection */
+  .page-number {
+    margin-bottom: 20px;
+  }
+  
+  /* Search results container */
+  #search-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  /* Grid view layout */
+  .grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  /* List view layout */
+  .list-view {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  

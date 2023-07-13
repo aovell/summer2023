@@ -1,100 +1,42 @@
-<html>
-<head>
-<title>Google Books Search</title>
-
-<script src="https://code.jquery.com/jquery-2.1.4.min.js">
-</script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-
-
-
-
-      <meta charset="UTF-8">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-      <script src="script.js"></script>
-    </head>
-  </head>
-  <body>
-    <h1>My Bookshelf</h1>
-    <div id="bookshelf"></div>
-  </body>
-  </html>
-
- <!-- Search Results Template -->
-<script id="search-results-template" type="text/template">
-  {{#books}}
-  <div class="search-result-item">
-    <div class="book-thumbnail">
-      <img src="{{thumbnail}}" alt="Book Thumbnail">
-    </div>
-    <div class="book-details">
-      <h3>{{title}}</h3>
-      <p>Author: {{author}}</p>
-      <p>Published: {{published}}</p>
-      <!-- Add any other relevant book details -->
-    </div>
-  </div>
-  {{/books}}
-</script>
-
-<!-- Book Details Template -->
-<script id="book-details-template" type="text/template">
-  <div class="book-details">
-    <h2>{{title}}</h2>
-    <p>Author: {{author}}</p>
-    <p>Published: {{published}}</p>
-    <p>Description: {{description}}</p>
-    <!-- Add more book details here -->
-  </div>
-</script>
-
-<!-- Bookshelf Template -->
-<script id="bookshelf-template" type="text/template">
-  {{#books}}
-  <div class="bookshelf-item">
-    <div class="book-thumbnail">
-      <img src="{{thumbnail}}" alt="Book Thumbnail">
-    </div>
-    <div class="book-details">
-      <h3>{{title}}</h3>
-      <p>Author: {{author}}</p>
-      <p>Published: {{published}}</p>
-      <!-- Add any other relevant book details -->
-    </div>
-  </div>
-  {{/books}}
-</script>
-
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Book Search</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
 <body>
-  <div class="container">
-    <div class="tabs">
-      <div class="tab search-results-tab active">Search Results</div>
-      <div class="tab bookshelf-tab">Bookshelf</div>
-    </div>
-    <div class="search-results-container">
-      <!-- Search results will be rendered here -->
-    </div>
-    <div class="bookshelf-container" style="display: none;">
-      <!-- Bookshelf items will be rendered here -->
-    </div>
-    <div class="book-details-container">
-      <!-- Book details will be rendered here -->
-    </div>
-    <div class="layout-switches">
-      <div class="layout-switch active" data-layout="grid">Grid View</div>
-      <div class="layout-switch" data-layout="list">List View</div>
-    </div>
-  </div>
+  <nav>
+    <ul>
+      <li><a href = "index.html"> Main menu</a></li>
+      <li><a href="home.html">Home</a></li>
+      <li><a class="active" href = "milestone4.html">4</a> </li>
+    </ul>
+  </nav>
+<!-- Book search form -->
+<div class="search-form">
+  <input type="text" id="search-input" placeholder="Enter search terms">
+  <button id="search-button">Search</button>
+</div>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
-  <script src="script.js"></script>
+<!-- Page number selection -->
+<div class="page-number">
+  <label for="page-select">Page:</label>
+  <select id="page-select">
+    <!-- Populate options dynamically using JavaScript -->
+  </select>
+</div>
+
+<!-- Display search results -->
+<div id="search-results"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="script.js"></script>
+
+<script id="book-template" type="text/template">
+  <div class="book-item">
+    <img src="{{imageLinks.smallThumbnail}}" alt="{{title}}">
+    <h3>{{title}}</h3>
+    <p>{{description}}</p>
+  </div>
+</script>
 </body>
 </html>
-
