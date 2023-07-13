@@ -1,14 +1,32 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link href="https://github.com/janl/mustache.js.git">
-  </head>
-  <style>
-    #search-results {
+<head>
+  <title>Book Search</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<style>
+  h1 {
+  text-align: center;
+}
+
+#search-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#view-switch {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#results-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+#results-container.list-view {
+  display: block;
 }
 
 .book {
@@ -17,185 +35,138 @@
 }
 
 .book img {
-  width: 100%;
-  max-height: 200px;
+  width: 100px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
-.book h3 {
-  margin-top: 10px;
-}
-
-.book p {
-  margin-top: 5px;
-  font-size: 14px;
-}
-
-    #view-toggle {
-  margin-top: 10px;
-}
-
-#view-toggle button {
-  margin-right: 10px;
-}
-
-.grid-view .book {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
-}
-
-.list-view .book {
-  display: flex;
-  align-items: center;
-  border: 1px solid #ccc;
-  padding: 10px;
+.book h2 {
+  font-size: 18px;
   margin-bottom: 10px;
 }
 
-.list-view .book img {
-  width: 80px;
+.book p {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+#grid-view-button,
+#list-view-button {
   margin-right: 10px;
 }
 
-.list-view .book h3 {
-  margin: 0;
-}
+l {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #f8f2f2;
+  }
+  
+  li {
+    float: left;
+    border-right:1px solid #080808;
+  }
+  
+  li:last-child {
+    border-right: none;
+  }
+  li a {
+    display: block;
+    color: rgb(10, 9, 9);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  li a:hover:not(.active) {
+    background-color: #f3e778;
+  }
+  
+  .active {
+    background-color: #eed814;
+  }
 
-.list-view .book p {
-  margin: 5px 0 0 0;
-}
-
-  </style>
+</style>
 <body>
   <nav>
     <ul>
       <li><a href = "index.html"> Main menu</a></li>
       <li><a href="home.html">Home</a></li>
-      <li><a class="active" href = "milestone4.html">4</a> </li>
+      <li><a  class="active" href = "milestone4.html">4</a> </li>
     </ul>
   </nav>
+  <h1>Book Search</h1>
+  
   <div id="search-container">
-    <input type="text" id="search-input" placeholder="Enter search terms">
+    <input type="text" id="search-input" placeholder="Enter search terms...">
     <button id="search-button">Search</button>
   </div>
-  <div id="search-results"></div>
-
   
-  <script id="book-template" type="text/template">
-    {{#books}}
-    <div class="book">
-      <img src="{{thumbnail}}" alt="Book Cover">
-      <h3>{{title}}</h3>
-      <p>{{description}}</p>
-    </div>
-    {{/books}}
-  </script>
-
-  <script>
-<div id="search-results">
-  <!-- The search results will be dynamically populated here -->
-</div>
-
-<div id="pagination">
-  <!-- The pagination controls will be dynamically populated here -->
-</div>
-<!-- Add this code to the end of index.html, just before the closing </body> tag -->
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-$(document).ready(function() {
-  // Global variables to track the current search term and page
-  var searchTerm = "";
-  var currentPage = 1;
-  var resultsPerPage = 10; // Change this value as per your preference
-  
-  // Function to perform a book search based on the user's input
-  function searchBooks() {
-    searchTerm = $("#search-input").val();
-    currentPage = 1; // Reset to the first page when performing a new search
-    getSearchResults();
-  }
-  
-  // Function to fetch search results from the Google Books API
-  function getSearchResults() {
-    var startIndex = (currentPage - 1) * resultsPerPage;
-    var url = "https://www.googleapis.com/books/v1/volumes?q=" + searchTerm + "&startIndex=" + startIndex + "&maxResults=" + resultsPerPage;
-    
-    // Make an AJAX request to fetch the search results
-    $.ajax({
-      url: url,
-      dataType: "json",
-      success: function(response) {
-        displaySearchResults(response);
-        renderPagination(response.totalItems);
-      },
-      error: function() {
-        $("#search-results").html("An error occurred while fetching the search results.");
-      }
-    });
-  }
-  
-  // Function to display the search results on the page
-  function displaySearchResults(data) {
-    var resultsContainer = $("#search-results");
-    resultsContainer.empty();
-    
-    if (data.items && data.items.length > 0) {
-      $.each(data.items, function(index, item) {
-        var title = item.volumeInfo.title;
-        var description = item.volumeInfo.description;
-        var coverImage = item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : "";
-        
-        var resultItem = $("<div>").addClass("result-item");
-        var titleElement = $("<h3>").text(title);
-        var descriptionElement = $("<p>").text(description);
-        var coverImageElement = $("<img>").attr("src", coverImage);
-        
-        resultItem.append(titleElement, coverImageElement, descriptionElement);
-        resultsContainer.append(resultItem);
-      });
-    } else {
-      resultsContainer.html("No results found.");
-    }
-  }
-    });
-  </script>
-<div id="search-container">
-  <input type="text" id="search-input" placeholder="Enter search terms">
-  <button id="search-button">Search</button>
-  <div id="view-toggle">
-    <button id="grid-view-button" class="active">Grid View</button>
+  <div id="view-switch">
+    <button id="grid-view-button">Grid View</button>
     <button id="list-view-button">List View</button>
   </div>
-</div>
-<div id="search-results" class="grid-view"></div>
-    <script>
-      // Event listeners for the view toggle buttons
-document.getElementById('grid-view-button').addEventListener('click', function() {
-  toggleView('grid-view');
+  
+  <div id="results-container"></div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="script.js"></script>
+
+  <script>
+    $(document).ready(function() {
+  var API_KEY = '114034464592823534860';
+  var resultsContainer = $('#results-container');
+  var searchButton = $('#search-button');
+  var searchInput = $('#search-input');
+  var gridViewButton = $('#grid-view-button');
+  var listViewButton = $('#list-view-button');
+  
+  searchButton.click(function() {
+    var searchTerm = searchInput.val();
+    var url = 'https://www.googleapis.com/books/v1/volumes?q=' + searchTerm + '&key=' + API_KEY;
+
+    $.get(url, function(data) {
+      resultsContainer.empty();
+
+      if (data.items) {
+        var books = data.items;
+        var numResults = Math.min(60, books.length);
+        for (var i = 0; i < numResults; i++) {
+          var book = books[i].volumeInfo;
+          var title = book.title;
+          var description = book.description ? book.description : 'No description available';
+          var imageLink = book.imageLinks ? book.imageLinks.smallThumbnail : '';
+          
+          var bookElement = $('<div class="book"></div>');
+          var titleElement = $('<h2></h2>').text(title);
+          var descriptionElement = $('<p></p>').text(description);
+          var imageElement = $('<img>').attr('src', imageLink);
+          
+          bookElement.append(titleElement, descriptionElement, imageElement);
+          resultsContainer.append(bookElement);
+        }
+      }
+      else {
+        resultsContainer.text('No results found.');
+      }
+    });
+  });
+  
+  gridViewButton.click(function() {
+    resultsContainer.removeClass('list-view');
+    resultsContainer.addClass('grid-view');
+  });
+  
+  listViewButton.click(function() {
+    resultsContainer.removeClass('grid-view');
+    resultsContainer.addClass('list-view');
+  });
 });
 
-document.getElementById('list-view-button').addEventListener('click', function() {
-  toggleView('list-view');
-});
+  </script>
 
-// Function to toggle between grid and list view
-function toggleView(view) {
-  // Remove the 'active' class from all buttons
-  var buttons = document.getElementById('view-toggle').getElementsByTagName('button');
-  for (var i = 0; i < buttons.length; i++) {
-    buttons[i].classList.remove('active');
-  }
-
-  // Add the 'active' class to the clicked button
-  event.target.classList.add('active');
-
-  // Toggle the view class on the search results container
-  var searchResults = document.getElementById('search-results');
-  searchResults.classList.remove('grid-view', 'list-view');
-  searchResults.classList.add(view);
-}
-
-    </script>
 </body>
 </html>
+
+  
