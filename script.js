@@ -214,7 +214,7 @@ $(document).ready(function() {
       displayResults(selectedPage);
     });
   }
-});
+
 
 
 //4
@@ -229,4 +229,4 @@ $('.layout-switch').on('click', function() {
     $('.search-result-item').removeClass('grid-view');
   }
 });
-
+});
