@@ -218,52 +218,15 @@ $(document).ready(function() {
 
 
 //4
-/// JavaScript code (script.js)
-$(document).ready(function() {
-  var searchResultsTemplate = $('#search-results-template').html();
-  var bookDetailsTemplate = $('#book-details-template').html();
-
-  // Handle search button click
-  $('#search-button').on('click', function() {
-    var searchQuery = $('#search-input').val();
-    if (searchQuery.trim() !== '') {
-      searchBooks(searchQuery);
-    }
-  });
-
-  // Handle layout switching
-  $('.layout-switch').on('click', function() {
-    $('.layout-switch').removeClass('active');
-    $(this).addClass('active');
-    var layout = $(this).data('layout');
-    if (layout === 'grid') {
-      $('.search-result-item').addClass('grid-view');
-    } else if (layout === 'list') {
-      $('.search-result-item').removeClass('grid-view');
-    }
-  });
-
-  // Handle click event on search result items
-  $(document).on('click', '.search-result-item', function() {
-    var book = $(this).data('book');
-    var bookDetailsHtml = Mustache.render(bookDetailsTemplate, book);
-    $('.book-details-container').html(bookDetailsHtml);
-  });
-
-  // Perform the book search using Google Books API
-  function searchBooks(query) {
-    var url = 'https://www.googleapis.com/books/v1/volumes?q=' + query;
-
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      success: function(data) {
-        var searchResultsHtml = Mustache.render(searchResultsTemplate, data);
-        $('.search-results-container').html(searchResultsHtml);
-      },
-      error: function(error) {
-        console.error('Error:', error);
-      }
-    });
+// Handle layout switching
+$('.layout-switch').on('click', function() {
+  $('.layout-switch').removeClass('active');
+  $(this).addClass('active');
+  var layout = $(this).data('layout');
+  if (layout === 'grid') {
+    $('.search-result-item').addClass('grid-view');
+  } else if (layout === 'list') {
+    $('.search-result-item').removeClass('grid-view');
   }
 });
+

@@ -1,5 +1,84 @@
 <!DOCTYPE html>
 <html>
+  <style>/* CSS styles (styles.css) */
+    .container {
+      padding: 20px;
+    }
+    
+    .search-container {
+      margin-bottom: 20px;
+    }
+    
+    .search-container input[type="text"] {
+      padding: 5px;
+      font-size: 16px;
+    }
+    
+    .search-container button {
+      padding: 5px 10px;
+      font-size: 16px;
+    }
+    
+    .layout-switches {
+      margin-top: 10px;
+    }
+    
+    .layout-switches .layout-switch {
+      display: inline-block;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    
+    .layout-switches .layout-switch.active {
+      background-color: #ddd;
+    }
+    
+    .search-results-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    
+    .search-result-item {
+      margin-right: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
+    
+    .search-result-item.grid-view {
+      width: 200px;
+    }
+    
+    .book-thumbnail img {
+      width: 100%;
+      height: auto;
+    }
+    
+    .book-details-container {
+      margin-top: 20px;
+      border: 1px solid #ddd;
+      padding: 20px;
+    }
+    
+    .book-details .book-thumbnail {
+      float: left;
+      width: 200px;
+      margin-right: 20px;
+    }
+    
+    .book-details .book-thumbnail img {
+      width: 100%;
+      height: auto;
+    }
+    
+    .book-details .book-details-info p {
+      margin-bottom: 10px;
+    }
+    
+    .book-details .book-details-info p strong {
+      font-weight: bold;
+    }
+    </style>
 <head>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -13,11 +92,8 @@
       <li><a href = "milestone4.html">4</a> </li>
         </ul>
       </nav>
-<!-- Switch view layout buttons -->
-<div class="view-buttons">
-  <button id="grid-view-btn">Grid View</button>
-  <button id="list-view-btn">List View</button>
-</div>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.3.1/mustache.min.js"></script>
 
 <!-- Add this code to index.html -->
 
@@ -25,6 +101,10 @@
   <h2>Book Search</h2>
   <input type="text" id="search-input" placeholder="Enter search terms">
   <button id="search-button">Search</button>
+</div>
+<div class="layout-switches">
+  <div class="layout-switch active" data-layout="grid">Grid View</div>
+  <div class="layout-switch" data-layout="list">List View</div>
 </div>
 
 <div id="search-results">
