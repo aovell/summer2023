@@ -1,63 +1,104 @@
+<!-- Search Results Template -->
+<script id="search-results-template" type="text/template">
+  {{#books}}
+  <div class="search-result-item">
+    <div class="book-thumbnail">
+      <img src="{{volumeInfo.imageLinks.thumbnail}}" alt="Book Thumbnail">
+    </div>
+    <div class="book-details">
+      <h3>{{volumeInfo.title}}</h3>
+      <p>Author: {{volumeInfo.authors}}</p>
+      <p>Published: {{volumeInfo.publishedDate}}</p>
+      <!-- Add any other relevant book details -->
+    </div>
+  </div>
+  {{/books}}
+</script>
+
+<!-- Book Details Template -->
+<script id="book-details-template" type="text/template">
+  <div class="book-details">
+    <h2>{{volumeInfo.title}}</h2>
+    <div class="book-info">
+      <div class="book-thumbnail">
+        <img src="{{volumeInfo.imageLinks.thumbnail}}" alt="Book Thumbnail">
+      </div>
+      <div class="book-details-info">
+        <p><strong>Author:</strong> {{volumeInfo.authors}}</p>
+        <p><strong>Published:</strong> {{volumeInfo.publishedDate}}</p>
+        <p><strong>ISBN:</strong> {{volumeInfo.industryIdentifiers.0.identifier}}</p>
+        <p><strong>Publisher:</strong> {{volumeInfo.publisher}}</p>
+        <p><strong>Language:</strong> {{volumeInfo.language}}</p>
+        <p><strong>Pages:</strong> {{volumeInfo.pageCount}}</p>
+        <p><strong>Genre:</strong> {{volumeInfo.categories}}</p>
+        <p><strong>Description:</strong> {{volumeInfo.description}}</p>
+        <!-- Add more book details here -->
+      </div>
+    </div>
+  </div>
+</script>
+
+<!-- Bookshelf Template -->
+<script id="bookshelf-template" type="text/template">
+  {{#books}}
+  <div class="bookshelf-item">
+    <div class="book-thumbnail">
+      <img src="{{volumeInfo.imageLinks.thumbnail}}" alt="Book Thumbnail">
+    </div>
+    <div class="book-details">
+      <h3>{{volumeInfo.title}}</h3>
+      <p>Author: {{volumeInfo.authors}}</p>
+      <p>Published: {{volumeInfo.publishedDate}}</p>
+      <!-- Add any other relevant book details -->
+    </div>
+  </div>
+  {{/books}}
+</script>
+
+   
+  
+      
+  
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My bookshelf</title>
+  <title>Book Search</title>
   <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<style>
-
-
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #f8f2f2;
-  }
-  
-  li {
-    float: left;
-    border-right:1px solid #080808;
-  }
-  
-  li:last-child {
-    border-right: none;
-  }
-  li a {
-    display: block;
-    color: rgb(10, 9, 9);
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-  }
-  li a:hover:not(.active) {
-    background-color: #f3e778;
-  }
-  
-  .active {
-    background-color: #eed814;
-  }
-
-</style>
-<!DOCTYPE html>
-<html>
-<head>
-  <title>My Bookshelf</title>
-  <style>
-    /* Add any desired CSS styles for book display */
-  </style>
 </head>
 <body>
   <nav>
     <ul>
       <li><a href = "index.html"> Main menu</a></li>
       <li><a href="home.html">Home</a></li>
-      <li><a class="active" href = "milestone4.html">4</a> </li>
+      <li><a class = "active" href = "milestone4.html">4</a> </li>
     </ul>
   </nav>
-  <div id="bookshelf"></div>
-  
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <div class="container">
+    <div class="tabs">
+      <div class="tab search-results-tab active">Search Results</div>
+      <div class="tab bookshelf-tab">Bookshelf</div>
+    </div>
+    <div class="search-results-container">
+      <!-- Search results will be rendered here -->
+    </div>
+    <div class="bookshelf-container" style="display: none;">
+      <!-- Bookshelf items will be rendered here -->
+    </div>
+    <div class="book-details-container">
+      <!-- Book details will be rendered here -->
+    </div>
+    <div class="layout-switches">
+      <div class="layout-switch active" data-layout="grid">Grid View</div>
+      <div class="layout-switch" data-layout="list">List View</div>
+    </div>
+    <form id="search-form">
+      <input type="text" id="search-input" placeholder="Search Books">
+      <button type="submit">Search</button>
+    </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

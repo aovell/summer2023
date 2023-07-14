@@ -218,91 +218,95 @@ $(document).ready(function() {
 
 
 //4
-$(document).ready(function () {
-  // Variables
-  var API_KEY = '114034464592823534860';
-  var ITEMS_PER_PAGE = 20; // Number of results per page
-  var currentPage = 1;
-  var currentView = 'grid-view'; // Initial view layout
+// JavaScript code
+$(document).ready(function() {
+  var searchResults = []; // Array to store search results
+  var bookshelf = []; // Array to store bookshelf items
 
-  // Event listener for search button click
-  $('#search-button').click(function () {
-    var searchTerm = $('#search-input').val();
-    searchBooks(searchTerm);
-  });
+  // Compile the templates
+  var searchResultsTemplate = Handlebars.compile($('#search-results-template').html());
+  var bookDetailsTemplate = Handlebars.compile($('#book-details-template').html());
+  var bookshelfTemplate = Handlebars.compile($('#bookshelf-template').html());
 
-  // Event listener for page number selection
-  $('#page-select').change(function () {
-    currentPage = parseInt($(this).val());
-    searchBooks($('#search-input').val());
-  });
-
-  // Function to search books
-  function searchBooks(searchTerm) {
-    var startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    var url =
-      'https://www.googleapis.com/books/v1/volumes?q=' +
-      searchTerm +
-      '&startIndex=' +
-      startIndex +
-      '&maxResults=' +
-      ITEMS_PER_PAGE +
-      '&key=' +
-      API_KEY;
-
-    // Make AJAX request to the Google Books API
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      success: function (data) {
-        displaySearchResults(data.items);
-        displayPagination(data.totalItems);
-      },
-      error: function (error) {
-        console.log('Error:', error);
-      },
-    });
-  }
-
-  // Function to display search results
-  function displaySearchResults(books) {
-    var template = $('#book-template').html();
-    var html = '';
-
-    // Use Mustache.js to render the template
-    books.forEach(function (book) {
-      html += Mustache.render(template, book.volumeInfo);
-    });
-
-    // Clear previous results and append the new results
-    $('#search-results').html(html);
-  }
-
-  // Function to display pagination
-  function displayPagination(totalItems) {
-    var totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
-    var pageSelect = $('#page-select');
-    var options = '';
-
-    // Populate page number options
-    for (var i = 1; i <= totalPages; i++) {
-      options += '<option value="' + i + '">' + i + '</option>';
+  // Handle layout switching
+  $('.layout-switch').on('click', function() {
+    $('.layout-switch').removeClass('active');
+    $(this).addClass('active');
+    var layout = $(this).data('layout');
+    if (layout === 'grid') {
+      renderSearchResults(searchResults);
+    } else if (layout === 'list') {
+      renderSearchResults(searchResults, 'list');
     }
-
-    // Update the page number selection
-    pageSelect.html(options);
-    pageSelect.val(currentPage);
-  }
-
-  // Switch view layout between grid view and list view
-  
-  $('#grid-view-btn').click(function () {
-    currentView = 'grid-view';
-    $('#search-results').removeClass('list-view').addClass('grid-view');
   });
 
-  $('#list-view-btn').click(function () {
-    currentView = 'list-view';
-    $('#search-results').removeClass('grid-view').addClass('list-view');
+  // Handle click event on search result items
+  $(document).on('click', '.search-result-item', function() {
+    var bookIndex = $(this).index();
+    var book = searchResults[bookIndex];
+    var bookDetailsHtml = bookDetailsTemplate(book);
+    $('.book-details-container').html(bookDetailsHtml);
+  });
+
+  // Fetch search results from Google Books API
+  function fetchSearchResults(query) {
+    $.ajax({
+      url: 'https://www.googleapis.com/books/v1/volumes',
+      data: {
+        q: query
+      },
+      success: function(response) {
+        searchResults = response.items;
+        renderSearchResults(searchResults);
+      }
+    });
+  }
+
+  // Fetch bookshelf items from Google Books API
+  function fetchBookshelf() {
+    $.ajax({
+      url: 'https://www.googleapis.com/books/v1/users/114034464592823534860/bookshelves/1001/volumes',
+      success: function(response) {
+        bookshelf = response.items;
+        renderBookshelf(bookshelf);
+      }
+    });
+  }
+
+  // Render search results using the specified layout
+  function renderSearchResults(books, layout = 'grid') {
+    var searchResultsHtml = searchResultsTemplate({ books: books });
+    $('.search-results-container').html(searchResultsHtml);
+    $('.search-results-container').removeClass().addClass('search-results-container').addClass(layout);
+  }
+
+  // Render bookshelf
+  function renderBookshelf() {
+    var bookshelfHtml = bookshelfTemplate({ books: bookshelf });
+    $('.bookshelf-container').html(bookshelfHtml);
+  }
+
+  // Handle search form submission
+  $('#search-form').on('submit', function(e) {
+    e.preventDefault();
+    var query = $('#search-input').val();
+    fetchSearchResults(query);
+  });
+
+  // Handle bookshelf tab click event
+  $('.bookshelf-tab').on('click', function() {
+    $('.tab').removeClass('active');
+    $(this).addClass('active');
+    $('.search-results-container').hide();
+    $('.bookshelf-container').show();
+    fetchBookshelf();
+  });
+
+  // Handle search results tab click event
+  $('.search-results-tab').on('click', function() {
+    $('.tab').removeClass('active');
+    $(this).addClass('active');
+    $('.bookshelf-container').hide();
+    $('.search-results-container').show();
   });
 });
