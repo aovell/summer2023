@@ -101,6 +101,7 @@
   <h2>Book Search</h2>
   <input type="text" id="search-input" placeholder="Enter search terms">
   <button id="search-button">Search</button>
+  <button id="bookshelf-button">Go to Bookshelf</button>
 </div>
 <div class="layout-switches">
   <div class="layout-switch active" data-layout="grid">Grid View</div>
@@ -118,6 +119,9 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+  $('#bookshelf-button').click(function() {
+    window.location.href = 'milestone4.html';
+  });
 $(document).ready(function() {
   // Global variables to track the current search term and page
   var searchTerm = "";

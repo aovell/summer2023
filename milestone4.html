@@ -1,150 +1,18 @@
+
 <!DOCTYPE html>
 <html>
-  <style>
-    /* CSS styles (styles.css) */
-.container {
-  padding: 20px;
-}
-
-.search-container {
-  margin-bottom: 20px;
-}
-
-.search-container input[type="text"] {
-  padding: 5px;
-  font-size: 16px;
-}
-
-.search-container button {
-  padding: 5px 10px;
-  font-size: 16px;
-}
-
-.layout-switches {
-  margin-top: 10px;
-}
-
-.layout-switches .layout-switch {
-  display: inline-block;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-.layout-switches .layout-switch.active {
-  background-color: #ddd;
-}
-
-.search-results-container {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.search-result-item {
-  margin-right: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  padding: 10px;
-}
-
-.search-result-item.grid-view {
-  width: 200px;
-}
-
-.book-thumbnail img {
-  width: 100%;
-  height: auto;
-}
-
-.book-details-container {
-  margin-top: 20px;
-  border: 1px solid #ddd;
-  padding: 20px;
-}
-
-.book-details .book-thumbnail {
-  float: left;
-  width: 200px;
-  margin-right: 20px;
-}
-
-.book-details .book-thumbnail img {
-  width: 100%;
-  height: auto;
-}
-
-.book-details .book-details-info p {
-  margin-bottom: 10px;
-}
-
-.book-details .book-details-info p strong {
-  font-weight: bold;
-}
-
-  </style>
 <head>
-  <title>Book Search</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <title>My Bookshelf</title>
+  <style>
+    /* Add any desired CSS styles for book display */
+  </style>
 </head>
 <body>
-  <div class="container">
-    <div class="search-container">
-      <input type="text" id="search-input" placeholder="Enter a book title">
-      <button id="search-button">Search</button>
-      <div class="layout-switches">
-        <div class="layout-switch active" data-layout="grid">Grid View</div>
-        <div class="layout-switch" data-layout="list">List View</div>
-      </div>
-    </div>
-    <div class="search-results-container">
-      <!-- Search results will be rendered here -->
-    </div>
-    <div class="book-details-container">
-      <!-- Book details will be rendered here -->
-    </div>
-  </div>
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.3.1/mustache.min.js"></script>
+  <div id="bookshelf"></div>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
+     
 
-<!-- Search Results Template -->
-<script id="search-results-template" type="text/template">
-  {{#items}}
-  <div class="search-result-item">
-    <div class="book-thumbnail">
-      <img src="{{volumeInfo.imageLinks.thumbnail}}" alt="Book Thumbnail">
-    </div>
-    <div class="book-details">
-      <h3>{{volumeInfo.title}}</h3>
-      <p>Author: {{volumeInfo.authors}}</p>
-      <p>Published: {{volumeInfo.publishedDate}}</p>
-      <!-- Add any other relevant book details -->
-    </div>
-  </div>
-  {{/items}}
-</script>
-
-<!-- Book Details Template -->
-<script id="book-details-template" type="text/template">
-  <div class="book-details">
-    <h2>{{volumeInfo.title}}</h2>
-    <div class="book-info">
-      <div class="book-thumbnail">
-        <img src="{{volumeInfo.imageLinks.thumbnail}}" alt="Book Thumbnail">
-      </div>
-      <div class="book-details-info">
-        <p><strong>Author:</strong> {{volumeInfo.authors}}</p>
-        <p><strong>Published:</strong> {{volumeInfo.publishedDate}}</p>
-        <p><strong>ISBN:</strong> {{volumeInfo.industryIdentifiers.0.identifier}}</p>
-        <p><strong>Publisher:</strong> {{volumeInfo.publisher}}</p>
-        <p><strong>Language:</strong> {{volumeInfo.language}}</p>
-        <p><strong>Pages:</strong> {{volumeInfo.pageCount}}</p>
-        <p><strong>Genre:</strong> {{volumeInfo.categories}}</p>
-        <p><strong>Description:</strong> {{volumeInfo.description}}</p>
-        <!-- Add more book details here -->
-      </div>
-    </div>
-  </div>
-</script>
