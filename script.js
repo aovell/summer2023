@@ -223,7 +223,7 @@ $(document).ready(function () {
   var API_KEY = '114034464592823534860';
   var ITEMS_PER_PAGE = 20; // Number of results per page
   var currentPage = 1;
-  var currentView = 'grid-view'; // Initial view layout
+  var currentView = 'list-view'; // Initial view layout
 
   // Event listener for search button click
   $('#search-button').click(function () {
