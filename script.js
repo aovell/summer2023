@@ -218,15 +218,18 @@ $(document).ready(function() {
 
 
 //4
-// JavaScript code
+/// JavaScript code (script.js)
 $(document).ready(function() {
-  var searchResults = []; // Array to store search results
-  var bookshelf = []; // Array to store bookshelf items
+  var searchResultsTemplate = $('#search-results-template').html();
+  var bookDetailsTemplate = $('#book-details-template').html();
 
-  // Compile the templates
-  var searchResultsTemplate = Handlebars.compile($('#search-results-template').html());
-  var bookDetailsTemplate = Handlebars.compile($('#book-details-template').html());
-  var bookshelfTemplate = Handlebars.compile($('#bookshelf-template').html());
+  // Handle search button click
+  $('#search-button').on('click', function() {
+    var searchQuery = $('#search-input').val();
+    if (searchQuery.trim() !== '') {
+      searchBooks(searchQuery);
+    }
+  });
 
   // Handle layout switching
   $('.layout-switch').on('click', function() {
@@ -234,79 +237,33 @@ $(document).ready(function() {
     $(this).addClass('active');
     var layout = $(this).data('layout');
     if (layout === 'grid') {
-      renderSearchResults(searchResults);
+      $('.search-result-item').addClass('grid-view');
     } else if (layout === 'list') {
-      renderSearchResults(searchResults, 'list');
+      $('.search-result-item').removeClass('grid-view');
     }
   });
 
   // Handle click event on search result items
   $(document).on('click', '.search-result-item', function() {
-    var bookIndex = $(this).index();
-    var book = searchResults[bookIndex];
-    var bookDetailsHtml = bookDetailsTemplate(book);
+    var book = $(this).data('book');
+    var bookDetailsHtml = Mustache.render(bookDetailsTemplate, book);
     $('.book-details-container').html(bookDetailsHtml);
   });
 
-  // Fetch search results from Google Books API
-  function fetchSearchResults(query) {
+  // Perform the book search using Google Books API
+  function searchBooks(query) {
+    var url = 'https://www.googleapis.com/books/v1/volumes?q=' + query;
+
     $.ajax({
-      url: 'https://www.googleapis.com/books/v1/volumes',
-      data: {
-        q: query
+      url: url,
+      dataType: 'json',
+      success: function(data) {
+        var searchResultsHtml = Mustache.render(searchResultsTemplate, data);
+        $('.search-results-container').html(searchResultsHtml);
       },
-      success: function(response) {
-        searchResults = response.items;
-        renderSearchResults(searchResults);
+      error: function(error) {
+        console.error('Error:', error);
       }
     });
   }
-
-  // Fetch bookshelf items from Google Books API
-  function fetchBookshelf() {
-    $.ajax({
-      url: 'https://www.googleapis.com/books/v1/users/114034464592823534860/bookshelves/1001/volumes',
-      success: function(response) {
-        bookshelf = response.items;
-        renderBookshelf(bookshelf);
-      }
-    });
-  }
-
-  // Render search results using the specified layout
-  function renderSearchResults(books, layout = 'grid') {
-    var searchResultsHtml = searchResultsTemplate({ books: books });
-    $('.search-results-container').html(searchResultsHtml);
-    $('.search-results-container').removeClass().addClass('search-results-container').addClass(layout);
-  }
-
-  // Render bookshelf
-  function renderBookshelf() {
-    var bookshelfHtml = bookshelfTemplate({ books: bookshelf });
-    $('.bookshelf-container').html(bookshelfHtml);
-  }
-
-  // Handle search form submission
-  $('#search-form').on('submit', function(e) {
-    e.preventDefault();
-    var query = $('#search-input').val();
-    fetchSearchResults(query);
-  });
-
-  // Handle bookshelf tab click event
-  $('.bookshelf-tab').on('click', function() {
-    $('.tab').removeClass('active');
-    $(this).addClass('active');
-    $('.search-results-container').hide();
-    $('.bookshelf-container').show();
-    fetchBookshelf();
-  });
-
-  // Handle search results tab click event
-  $('.search-results-tab').on('click', function() {
-    $('.tab').removeClass('active');
-    $(this).addClass('active');
-    $('.bookshelf-container').hide();
-    $('.search-results-container').show();
-  });
 });

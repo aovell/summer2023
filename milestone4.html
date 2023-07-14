@@ -1,6 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    /* CSS styles (styles.css) */
+.container {
+  padding: 20px;
+}
+
+.search-container {
+  margin-bottom: 20px;
+}
+
+.search-container input[type="text"] {
+  padding: 5px;
+  font-size: 16px;
+}
+
+.search-container button {
+  padding: 5px 10px;
+  font-size: 16px;
+}
+
+.layout-switches {
+  margin-top: 10px;
+}
+
+.layout-switches .layout-switch {
+  display: inline-block;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.layout-switches .layout-switch.active {
+  background-color: #ddd;
+}
+
+.search-results-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.search-result-item {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.search-result-item.grid-view {
+  width: 200px;
+}
+
+.book-thumbnail img {
+  width: 100%;
+  height: auto;
+}
+
+.book-details-container {
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  padding: 20px;
+}
+
+.book-details .book-thumbnail {
+  float: left;
+  width: 200px;
+  margin-right: 20px;
+}
+
+.book-details .book-thumbnail img {
+  width: 100%;
+  height: auto;
+}
+
+.book-details .book-details-info p {
+  margin-bottom: 10px;
+}
+
+.book-details .book-details-info p strong {
+  font-weight: bold;
+}
+
+  </style>
+<head>
+  <title>Book Search</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="search-container">
+      <input type="text" id="search-input" placeholder="Enter a book title">
+      <button id="search-button">Search</button>
+      <div class="layout-switches">
+        <div class="layout-switch active" data-layout="grid">Grid View</div>
+        <div class="layout-switch" data-layout="list">List View</div>
+      </div>
+    </div>
+    <div class="search-results-container">
+      <!-- Search results will be rendered here -->
+    </div>
+    <div class="book-details-container">
+      <!-- Book details will be rendered here -->
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.3.1/mustache.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+
 <!-- Search Results Template -->
 <script id="search-results-template" type="text/template">
-  {{#books}}
+  {{#items}}
   <div class="search-result-item">
     <div class="book-thumbnail">
       <img src="{{volumeInfo.imageLinks.thumbnail}}" alt="Book Thumbnail">
@@ -12,7 +123,7 @@
       <!-- Add any other relevant book details -->
     </div>
   </div>
-  {{/books}}
+  {{/items}}
 </script>
 
 <!-- Book Details Template -->
@@ -37,68 +148,3 @@
     </div>
   </div>
 </script>
-
-<!-- Bookshelf Template -->
-<script id="bookshelf-template" type="text/template">
-  {{#books}}
-  <div class="bookshelf-item">
-    <div class="book-thumbnail">
-      <img src="{{volumeInfo.imageLinks.thumbnail}}" alt="Book Thumbnail">
-    </div>
-    <div class="book-details">
-      <h3>{{volumeInfo.title}}</h3>
-      <p>Author: {{volumeInfo.authors}}</p>
-      <p>Published: {{volumeInfo.publishedDate}}</p>
-      <!-- Add any other relevant book details -->
-    </div>
-  </div>
-  {{/books}}
-</script>
-
-   
-  
-      
-  
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Book Search</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-  <nav>
-    <ul>
-      <li><a href = "index.html"> Main menu</a></li>
-      <li><a href="home.html">Home</a></li>
-      <li><a class = "active" href = "milestone4.html">4</a> </li>
-    </ul>
-  </nav>
-  <div class="container">
-    <div class="tabs">
-      <div class="tab search-results-tab active">Search Results</div>
-      <div class="tab bookshelf-tab">Bookshelf</div>
-    </div>
-    <div class="search-results-container">
-      <!-- Search results will be rendered here -->
-    </div>
-    <div class="bookshelf-container" style="display: none;">
-      <!-- Bookshelf items will be rendered here -->
-    </div>
-    <div class="book-details-container">
-      <!-- Book details will be rendered here -->
-    </div>
-    <div class="layout-switches">
-      <div class="layout-switch active" data-layout="grid">Grid View</div>
-      <div class="layout-switch" data-layout="list">List View</div>
-    </div>
-    <form id="search-form">
-      <input type="text" id="search-input" placeholder="Search Books">
-      <button type="submit">Search</button>
-    </form>
-  </div>
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
-  <script src="script.js"></script>
-</body>
-</html>
