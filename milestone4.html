@@ -1,4 +1,169 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    /* Styles for layout switching buttons and search bar */
+.search-bar {
+  margin: 20px;
+  text-align: center;
+}
 
+.search-bar input {
+  padding: 5px;
+}
+
+.search-bar button {
+  padding: 5px 10px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.layout-switch {
+  background-color: #f1f1f1;
+}
+
+.layout-switch.active {
+  background-color: #ccc;
+}
+
+/* Styles for search results */
+.search-results-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+.search-result-item {
+  width: 200px;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+/* Styles for book details */
+.book-details-container {
+  margin: 20px;
+}
+
+.book-details {
+  padding: 20px;
+}
+
+.book-info {
+  display: flex;
+}
+
+.book-thumbnail {
+  width: 200px;
+  margin-right: 20px;
+}
+
+.book-thumbnail img {
+  width: 100%;
+  height: auto;
+}
+
+.book-details-info p {
+  margin-bottom: 10px;
+}
+
+.book-details-info p strong {
+  font-weight: bold;
+}
+
+  </style>
+<head>
+  <title>Google Books Search</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="Enter book title">
+      <button id="search-button">Search</button>
+      <button class="layout-switch active" data-layout="grid">Grid View</button>
+      <button class="layout-switch" data-layout="list">List View</button>
+    </div>
+    <div class="search-results-container">
+      <!-- Search results will be rendered here -->
+    </div>
+    <div class="book-details-container">
+      <!-- Book details will be rendered here -->
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+
+<script>
+  $(document).ready(function() {
+  var apiKey = '14034464592823534860';
+  var maxResults = 20;
+  var searchResults = [];
+  var bookDetails = {};
+
+  function fetchBooks(searchTerm) {
+    var apiUrl = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(searchTerm)}&maxResults=${maxResults}&key=${apiKey}`;
+
+    $.ajax({
+      url: apiUrl,
+      method: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        searchResults = data.items || [];
+        renderSearchResults(searchResults);
+      },
+      error: function() {
+        console.error('Failed to fetch books.');
+      }
+    });
+  }
+
+  function renderSearchResults(books) {
+    var layout = $('.layout-switch.active').data('layout');
+    var template = layout === 'grid' ? $('#grid-view-template').html() : $('#list-view-template').html();
+    var rendered = Mustache.render(template, { books: books });
+    $('.search-results-container').html(rendered);
+  }
+
+  function renderBookDetails(book) {
+    var template = $('#book-details-template').html();
+    var rendered = Mustache.render(template, book);
+    $('.book-details-container').html(rendered);
+  }
+
+  function switchLayout(layout) {
+    $('.layout-switch').removeClass('active');
+    $(`.layout-switch[data-layout="${layout}"]`).addClass('active');
+    renderSearchResults(searchResults);
+  }
+
+  $(document).on('click', '#search-button', function() {
+    var searchTerm = $('#search-input').val().trim();
+    if (searchTerm !== '') {
+      fetchBooks(searchTerm);
+    }
+  });
+
+  $(document).on('click', '.search-result-item', function() {
+    var bookIndex = $(this).data('index');
+    var selectedBook = searchResults[bookIndex];
+    renderBookDetails(selectedBook.volumeInfo);
+  });
+
+  $(document).on('click', '.layout-switch', function() {
+    var layout = $(this).data('layout');
+    switchLayout(layout);
+  });
+
+  // Initial layout switch to grid view
+  switchLayout('grid');
+});
+
+</script>
 <!DOCTYPE html>
 <html>
 <head>
