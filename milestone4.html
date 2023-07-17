@@ -106,7 +106,7 @@
   var bookDetails = {};
 
   function fetchBooks(searchTerm) {
-    var apiUrl = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(searchTerm)}&maxResults=${maxResults}&key=${apiKey}`;
+    var apiUrl = "https://www.googleapis.com/books/v1/users/114034464592823534860/bookshelves/1001/volumes?callback=handleResponse";
 
     $.ajax({
       url: apiUrl,
