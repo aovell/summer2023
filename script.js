@@ -84,12 +84,22 @@ function displayBookDetails(data) {
   detailsContainer.append(titleElement, authorsElement, publisherElement, descriptionElement, coverImageElement, priceElement);
 }
 
-//bookshelf
+
+var view = 'grid'; // Default view is grid
+
 function handleResponse(response) {
   var bookshelf = document.getElementById('bookshelf');
-  
+
   if (response && response.items) {
     var books = response.items;
+    bookshelf.innerHTML = ''; // Clear previous content
+
+    if (view === 'grid') {
+      bookshelf.classList.add('grid');
+    } else if (view === 'list') {
+      bookshelf.classList.add('list');
+    }
+
     for (var i = 0; i < books.length; i++) {
       var book = books[i].volumeInfo;
       var title = book.title;
@@ -97,32 +107,32 @@ function handleResponse(response) {
       var thumbnail = book.imageLinks ? book.imageLinks.smallThumbnail : '';
       var description = book.description ? book.description : 'No description available.';
       var previewLink = book.previewLink;
-      
+
       var bookElement = document.createElement('div');
       bookElement.classList.add('book');
-      
+
       var imageElement = document.createElement('img');
       imageElement.src = thumbnail;
-      
+
       var titleElement = document.createElement('h3');
       titleElement.innerHTML = title;
-      
+
       var authorElement = document.createElement('p');
       authorElement.innerHTML = 'By ' + authors;
-      
+
       var descriptionElement = document.createElement('p');
       descriptionElement.innerHTML = description;
-      
+
       var previewLinkElement = document.createElement('a');
       previewLinkElement.href = previewLink;
       previewLinkElement.innerHTML = 'Read more';
-      
+
       bookElement.appendChild(imageElement);
       bookElement.appendChild(titleElement);
       bookElement.appendChild(authorElement);
       bookElement.appendChild(descriptionElement);
       bookElement.appendChild(previewLinkElement);
-      
+
       bookshelf.appendChild(bookElement);
     }
   } else {
@@ -130,13 +140,27 @@ function handleResponse(response) {
   }
 }
 
+// Replace YOUR_BOOKSHELF_ID with the ID of your public bookshelf
 var booksApiUrl = 'https://www.googleapis.com/books/v1/users/114034464592823534860/bookshelves/1001/volumes?callback=handleResponse';
 $.ajax({
   url: booksApiUrl,
   dataType: 'jsonp',
   success: handleResponse
 });
-        
+
+function switchView(newView) {
+  var bookshelf = document.getElementById('bookshelf');
+  bookshelf.classList.remove(view);
+
+  view = newView;
+
+  if (view === 'grid') {
+    bookshelf.classList.add('grid');
+  } else if (view === 'list') {
+    bookshelf.classList.add('list');
+  }
+}
+
 //
 
 $(document).ready(function() {
@@ -327,7 +351,4 @@ $("#search-button").click(function() {
   searchBooks();
 });
 });
-
 });
-
- 
