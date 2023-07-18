@@ -151,4 +151,26 @@ ul {
     flex-direction: column;
     gap: 20px;
   }
+
+  /* Modify the CSS accordingly:*/
+#resultContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.grid .book {
+  width: 30%;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.list .book {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
   

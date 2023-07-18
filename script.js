@@ -229,4 +229,14 @@ $('.layout-switch').on('click', function() {
     $('.search-result-item').removeClass('grid-view');
   }
 });
+
+function displayResults(books) {
+  const template = $('#bookTemplate').html();
+  const isGridView = $('#gridViewCheckbox').prop('checked');
+  const rendered = Mustache.render(template, { books, isGridView });
+  $('#resultContainer').html(rendered);
+}
+
 });
+
+ 
