@@ -237,6 +237,97 @@ function displayResults(books) {
   $('#resultContainer').html(rendered);
 }
 
+$('#bookshelf-button').click(function() {
+  window.location.href = 'milestone4.html';
+});
+$(document).ready(function() {
+// Global variables to track the current search term and page
+var searchTerm = "";
+var currentPage = 1;
+var resultsPerPage = 10; // Change this value as per your preference
+
+// Function to perform a book search based on the user's input
+function searchBooks() {
+  searchTerm = $("#search-input").val();
+  currentPage = 1; // Reset to the first page when performing a new search
+  getSearchResults();
+}
+
+// Function to fetch search results from the Google Books API
+function getSearchResults() {
+  var startIndex = (currentPage - 1) * resultsPerPage;
+  var url = "https://www.googleapis.com/books/v1/volumes?q=" + searchTerm + "&startIndex=" + startIndex + "&maxResults=" + resultsPerPage;
+  
+  // Make an AJAX request to fetch the search results
+  $.ajax({
+    url: url,
+    dataType: "json",
+    success: function(response) {
+      displaySearchResults(response);
+      renderPagination(response.totalItems);
+    },
+    error: function() {
+      $("#search-results").html("An error occurred while fetching the search results.");
+    }
+  });
+}
+
+// Function to display the search results on the page
+function displaySearchResults(data) {
+  var resultsContainer = $("#search-results");
+  resultsContainer.empty();
+  
+  if (data.items && data.items.length > 0) {
+    $.each(data.items, function(index, item) {
+      var title = item.volumeInfo.title;
+      var description = item.volumeInfo.description;
+      var coverImage = item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : "";
+      
+      var resultItem = $("<div>").addClass("result-item");
+      var titleElement = $("<h3>").text(title);
+      var descriptionElement = $("<p>").text(description);
+      var coverImageElement = $("<img>").attr("src", coverImage);
+      
+      resultItem.append(titleElement, coverImageElement, descriptionElement);
+      resultsContainer.append(resultItem);
+    });
+  } else {
+    resultsContainer.html("No results found.");
+  }
+}
+
+// Function to render the pagination controls
+function renderPagination(totalItems) {
+  var totalPages = Math.ceil(totalItems / resultsPerPage);
+  var paginationContainer = $("#pagination");
+  paginationContainer.empty();
+  
+  if (totalPages > 1) {
+    var pageSelect = $("<select>").attr("id", "page-select");
+    
+    for (var i = 1; i <= totalPages; i++) {
+      var option = $("<option>").val(i).text("Page " + i);
+      if (i === currentPage) {
+        option.attr("selected", "selected");
+      }
+      pageSelect.append(option);
+    }
+    
+    pageSelect.change(function() {
+      currentPage = parseInt($(this).val());
+      getSearchResults();
+    });
+    
+    paginationContainer.append(pageSelect);
+  }
+}
+
+// Event listener for the search button click
+$("#search-button").click(function() {
+  searchBooks();
+});
+});
+
 });
 
  
