@@ -30,35 +30,35 @@
     <script src="script.js"></script>
 </body>
 </html>
-    <!-- favorites.html -->
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Favorites</title>
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
-        <div class="container">
-            <h1>Favorites</h1>
-            <div id="favorites"></div>
-        </div>
-        <script src="script.js"></script>
-        <script>
-            displayFavorites(); // Display the favorites list on page load
+<!-- favorites.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Favorites</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
     
-            // Function to remove a movie from the favorites list and update the displayed list
-            function removeFromFavorites(movieId) {
-                removeFromFavoritesList(movieId);
-                displayFavorites(); // Refresh the displayed list after removal
-            }
-    
-            // Function to remove a movie from the favorites list in localStorage
-            function removeFromFavoritesList(movieId) {
-                let favorites = getFavorites();
-                favorites = favorites.filter((movie) => movie.id !== movieId);
-                saveFavorites(favorites);
-            }
-        </script>
-    </body>
-    </html>
-    
+    <div class="container">
+        <h1>Favorites</h1>
+        <div id="favorites"></div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        displayFavorites(); // Display the favorites list on page load
+
+        // Function to remove a movie from the favorites list and update the displayed list
+        function removeFromFavorites(movieId) {
+            removeFromFavoritesList(movieId);
+            displayFavorites(); // Refresh the displayed list after removal
+        }
+
+        // Function to remove a movie from the favorites list in localStorage
+        function removeFromFavoritesList(movieId) {
+            let favorites = getFavorites();
+            favorites = favorites.filter((movie) => movie.id !== movieId);
+            saveFavorites(favorites);
+        }
+    </script>
+</body>
+</html>

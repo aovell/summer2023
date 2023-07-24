@@ -190,6 +190,9 @@ function displayFavorites() {
   const favoritesDiv = document.getElementById("favorites");
   favoritesDiv.innerHTML = "";
 
+  const favoritesWrapper = document.createElement("div");
+  favoritesWrapper.className = "favorites-wrapper";
+
   favorites.forEach((movie) => {
     const movieCard = createMovieCard(movie);
     const removeButton = document.createElement("button");
@@ -200,6 +203,8 @@ function displayFavorites() {
     };
 
     movieCard.appendChild(removeButton);
-    favoritesDiv.appendChild(movieCard);
+    favoritesWrapper.appendChild(movieCard);
   });
+
+  favoritesDiv.appendChild(favoritesWrapper);
 }
