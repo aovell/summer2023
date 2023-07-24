@@ -47,4 +47,16 @@ h1 {
 }
 
 
- 
+ /* Add these CSS styles to your styles.css file */
+
+.favorites-wrapper {
+  display: flex;
+  overflow-x: auto;
+  margin-top: 20px;
+  padding: 10px;
+}
+
+.movie-card {
+  flex: 0 0 auto;
+  margin: 0 10px;
+}
