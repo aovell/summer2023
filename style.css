@@ -47,7 +47,7 @@ h1 {
 }
 
 
- /* Add these CSS styles to your styles.css file */
+ /* favorites */
 
 .favorites-wrapper {
   display: flex;
@@ -59,4 +59,21 @@ h1 {
 .movie-card {
   flex: 0 0 auto;
   margin: 0 10px;
+}
+/*  watchlist */
+
+.watchlist-section {
+  margin-top: 40px;
+}
+
+.watchlist {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.watchlist .movie-card {
+  margin-right: 10px;
 }

@@ -100,7 +100,15 @@ const addToFavoritesButton = document.createElement("button");
     };
     movieCard.appendChild(addToFavoritesButton);
 
+    const addToWatchlistButton = document.createElement("button");
+    addToWatchlistButton.textContent = "Add to Watchlist";
+    addToWatchlistButton.onclick = function () {
+        addToWatchlist(movie);
+    };
+    movieCard.appendChild(addToWatchlistButton);
+
     return movieCard;
+
 }
 
 function displayMovieDetails(movieId) {
@@ -207,4 +215,44 @@ function displayFavorites() {
   });
 
   favoritesDiv.appendChild(favoritesWrapper);
+}
+function addToWatchlist(movie) {
+  const watchlist = getWatchlist();
+  watchlist.push(movie);
+  saveWatchlist(watchlist);
+}
+
+function removeFromWatchlist(movieId) {
+  let watchlist = getWatchlist();
+  watchlist = watchlist.filter((movie) => movie.id !== movieId);
+  saveWatchlist(watchlist);
+}
+
+function getWatchlist() {
+  const watchlistJSON = localStorage.getItem("watchlist");
+  return watchlistJSON ? JSON.parse(watchlistJSON) : [];
+}
+
+function saveWatchlist(watchlist) {
+  const watchlistJSON = JSON.stringify(watchlist);
+  localStorage.setItem("watchlist", watchlistJSON);
+}
+
+function displayWatchlist() {
+  const watchlist = getWatchlist();
+  const watchlistDiv = document.getElementById("watchlist");
+  watchlistDiv.innerHTML = "";
+
+  watchlist.forEach((movie) => {
+      const movieCard = createMovieCard(movie);
+      const removeButton = document.createElement("button");
+      removeButton.textContent = "Remove from Watchlist";
+      removeButton.onclick = function () {
+          removeFromWatchlist(movie.id);
+          displayWatchlist();
+      };
+
+      movieCard.appendChild(removeButton);
+      watchlistDiv.appendChild(movieCard);
+  });
 }
