@@ -72,7 +72,7 @@ function sortResultsByReleaseDate() {
 
 
 function createMovieCard(movie) {
-    function createMovieCard(movie, isFavoritesPage = false) {
+    
     const movieCard = document.createElement("div");
     movieCard.className = "movie-card";
 
@@ -81,6 +81,7 @@ function createMovieCard(movie) {
     image.alt = movie.title;
     movieCard.appendChild(image);
 
+    
     const title = document.createElement("h2");
     title.textContent = movie.title;
     movieCard.appendChild(title);
@@ -92,28 +93,15 @@ function createMovieCard(movie) {
     movieCard.onclick = function () {
         displayMovieDetails(movie.id);
     };
-      // Add remove button to the favorites page
-    if (isFavoritesPage) {
-        const removeFromFavoritesButton = document.createElement("button");
-        removeFromFavoritesButton.textContent = "Remove from Favorites";
-        removeFromFavoritesButton.onclick = function (event) {
-            event.stopPropagation(); // Prevent the click from triggering the movie details
-            removeFromFavorites(movie.id);
-            displayFavorites(); // Refresh the displayed favorites list after removal
-        };
-        movieCard.appendChild(removeFromFavoritesButton);
-    } else {
 const addToFavoritesButton = document.createElement("button");
-        addToFavoritesButton.textContent = "Add to Favorites";
-        addToFavoritesButton.onclick = function () {
-            addToFavorites(movie);
-        };
-        movieCard.appendChild(addToFavoritesButton);
-    }
+    addToFavoritesButton.textContent = "Add to Favorites";
+    addToFavoritesButton.onclick = function () {
+        addToFavorites(movie);
+    };
+    movieCard.appendChild(addToFavoritesButton);
 
     return movieCard;
 }
- 
 
 function displayMovieDetails(movieId) {
     const url = `${apiUrl}/movie/${movieId}?api_key=${apiKey}&append_to_response=credits,reviews`;
@@ -196,12 +184,7 @@ function saveFavorites(favorites) {
   const favoritesJSON = JSON.stringify(favorites);
   localStorage.setItem("favorites", favoritesJSON);
 }
-// Function to remove a movie from the favorites list
-function removeFromFavorites(movieId) {
-    let favorites = getFavorites();
-    favorites = favorites.filter((movie) => movie.id !== movieId);
-    saveFavorites(favorites);
-}
+
 function displayFavorites() {
   const favorites = getFavorites();
   const favoritesDiv = document.getElementById("favorites");
@@ -219,5 +202,4 @@ function displayFavorites() {
     movieCard.appendChild(removeButton);
     favoritesDiv.appendChild(movieCard);
   });
-}
 }
