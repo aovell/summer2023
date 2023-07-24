@@ -2,28 +2,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+    <title>Movie Database Search</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
-
 <body>
+    <div class="container">
+        <h1>Movie Database Search</h1>
+        <input type="text" id="searchInput" placeholder="Search by title">
+        <button onclick="searchByTitle()">Search</button>
 
- 
-<nav>
-    <ul>
-      <li><a class="active" href = "index.html"> Main menu</a></li>
-      <li><a href="home.html">Home</a></li>
-      <li><a href = "milestone4.html">4</a> </li>
-    </ul>
-  </nav>
-  <h1>Alyn Ovell</h1>
-  <h2>Kennesaw State University</h2>
-  <p1>This is going to my my website and its purpose is to host all my Lab assignmnets.</p1>
-  <p2>For</p2>
-  <a href="https://ccse.kennesaw.edu/it/">course info</a>
-  
+        <button onclick="discoverPopularMovies()">Discover Popular Movies</button>
 
+      <button onclick="sortResultsAlphabetically()">Sort Alphabetically</button>
+
+      <button onclick="sortResultsByReleaseDate()">Sort by Release Date</button>
+
+
+        <div id="results"></div>
+        <div id="details"></div>
+    </div>
+    <script src="script.js"></script>
 </body>
-
-
 </html>

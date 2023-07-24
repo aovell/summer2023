@@ -1,176 +1,50 @@
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #f8f2f2;
-  }
-  
-  li {
-    float: left;
-    border-right:1px solid #080808;
-  }
-  
-  li:last-child {
-    border-right: none;
-  }
-  li a {
-    display: block;
-    color: rgb(10, 9, 9);
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-  }
-  li a:hover:not(.active) {
-    background-color: #f3e778;
-  }
-  
-  .active {
-    background-color: #eed814;
-  }
 
-  .pagination {
-    margin-top: 10px;
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-
-.pagination a {
-    margin: 0 5px;
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    text-decoration: none;
-    color: #333;
+h1 {
+  text-align: center;
 }
 
-
-.pagination a.active {
-    background-color: #ccc;
+#results {
+  margin-top: 20px;
 }
 
-/* style.css */
-.book-item {
-    margin-bottom: 20px;
-  }
-  
-  .book-item h2 {
-    margin-bottom: 5px;
-  }
-  
-  .book-item img {
-    max-width: 100px;
-  }
-  body {
-    font-family: Arial, sans-serif;
-  }
-  
-  h1 {
-    text-align: center;
-  }
-  
-  #search-container {
-    text-align: center;
-    margin: 20px auto;
-  }
-  
-  #search-input {
-    padding: 5px;
-    width: 300px;
-  }
-  
-  #search-button {
-    padding: 5px 10px;
-  }
-  
-  #results-container {
-    margin: 20px auto;
-  }
-  
-  .book-item {
-    display: flex;
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-  }
-  
-  .book-item img {
-    max-width: 80px;
-    margin-right: 10px;
-  }
-  
-  .book-item .book-info {
-    flex-grow: 1;
-  }
-  
-  .book-item .book-title {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .book-item .book-description {
-    margin-bottom: 5px;
-  }
-  
-
-  /* Book search form */
-.search-form {
-    margin-bottom: 20px;
-  }
-  
-  .search-form input[type="text"] {
-    padding: 5px;
-    width: 300px;
-  }
-  
-  .search-form button {
-    padding: 5px 10px;
-  }
-  
-  /* Page number selection */
-  .page-number {
-    margin-bottom: 20px;
-  }
-  
-  /* Search results container */
-  #search-results {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-  }
-  
-  /* Grid view layout */
-  .grid-view {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-  }
-  
-  /* List view layout */
-  .list-view {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  /* Modify the CSS accordingly:*/
-#resultContainer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.grid .book {
-  width: 30%;
-  margin-bottom: 20px;
-  padding: 10px;
+.movie-card {
   border: 1px solid #ccc;
+  padding: 60px;
+  margin: 100px;
+  display: inline-block;
+  width: 200px;
+  height: 400px;
+  overflow: hidden;
 }
 
-.list .book {
+.movie-card img {
   width: 100%;
-  margin-bottom: 20px;
+  height: 250px;
+}
+
+#details {
+  margin-top: 20px;
+  display: none;
+}
+
+#cast-details {
+  margin-top: 10px;
   padding: 10px;
   border: 1px solid #ccc;
 }
 
-  
+#cast-details img {
+  width: 100px;
+  height: 150px;
+  margin-right: 10px;
+  float: left;
+}
+
+
+ 
