@@ -8,10 +8,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="topnav">
-    <a class="active" href="index.html">Home</a>
-    <a href="Favorites.html">Favorites</a>
-  </div>
+     
     <div class="container">
         <h1>Movie Database Search</h1>
         <input type="text" id="searchInput" placeholder="Search by title">
@@ -26,18 +23,8 @@
 
         <div id="results"></div>
         <div id="details"></div>
-        <!-- Add the Watchlist section -->
-        <div class="watchlist-section">
-          <h2>Watchlist</h2>
-          <div class="watchlist" id="watchlist"></div>
-      </div>
-
     </div>
     <script src="script.js"></script>
-    <script>
-      displayFavorites();
-      displayWatchlist(); // Display the watchlist on page load
-  </script>
 </body>
 </html>
 <!-- favorites.html -->
@@ -69,6 +56,25 @@
             favorites = favorites.filter((movie) => movie.id !== movieId);
             saveFavorites(favorites);
         }
+    </script>
+</body>
+</html>
+
+<!-- watchlist.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Watchlist</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Watchlist</h1>
+        <div id="watchlist" class="horizontal-scroll"></div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        displayWatchlist();
     </script>
 </body>
 </html>

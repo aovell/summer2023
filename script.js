@@ -32,7 +32,7 @@ function displayResults(results) {
         resultsDiv.appendChild(movieCard);
     });
 }
-// ... existing code ...
+
 
 function sortResultsAlphabetically() {
     const resultsDiv = document.getElementById("results");
@@ -47,8 +47,6 @@ function sortResultsAlphabetically() {
     movieCards.forEach((movieCard) => resultsDiv.appendChild(movieCard));
 }
 
-// ... existing code ...
-// ... (existing code)
 
 // Function to sort the search results by release date
 function sortResultsByReleaseDate() {
@@ -67,8 +65,6 @@ function sortResultsByReleaseDate() {
         resultsDiv.appendChild(movie); // Add the sorted movies back to the resultsDiv
     });
 }
-
-// ... (existing code)
 
 
 function createMovieCard(movie) {
@@ -100,6 +96,7 @@ const addToFavoritesButton = document.createElement("button");
     };
     movieCard.appendChild(addToFavoritesButton);
 
+    // Add "Add to Watchlist" button
     const addToWatchlistButton = document.createElement("button");
     addToWatchlistButton.textContent = "Add to Watchlist";
     addToWatchlistButton.onclick = function () {
@@ -108,7 +105,6 @@ const addToFavoritesButton = document.createElement("button");
     movieCard.appendChild(addToWatchlistButton);
 
     return movieCard;
-
 }
 
 function displayMovieDetails(movieId) {
@@ -167,9 +163,9 @@ function createCastCard(cast) {
     return castCard;
 }
 
-// ... (existing code)
 
-// Add the following code at the end of script.js
+
+//
 
 function addToFavorites(movie) {
   const favorites = getFavorites();
@@ -216,43 +212,46 @@ function displayFavorites() {
 
   favoritesDiv.appendChild(favoritesWrapper);
 }
+//
+
 function addToWatchlist(movie) {
-  const watchlist = getWatchlist();
-  watchlist.push(movie);
-  saveWatchlist(watchlist);
+    const watchlist = getWatchlist();
+    watchlist.push(movie);
+    saveWatchlist(watchlist);
 }
 
 function removeFromWatchlist(movieId) {
-  let watchlist = getWatchlist();
-  watchlist = watchlist.filter((movie) => movie.id !== movieId);
-  saveWatchlist(watchlist);
+    let watchlist = getWatchlist();
+    watchlist = watchlist.filter((movie) => movie.id !== movieId);
+    saveWatchlist(watchlist);
 }
 
 function getWatchlist() {
-  const watchlistJSON = localStorage.getItem("watchlist");
-  return watchlistJSON ? JSON.parse(watchlistJSON) : [];
+    const watchlistJSON = localStorage.getItem("watchlist");
+    return watchlistJSON ? JSON.parse(watchlistJSON) : [];
 }
 
 function saveWatchlist(watchlist) {
-  const watchlistJSON = JSON.stringify(watchlist);
-  localStorage.setItem("watchlist", watchlistJSON);
+    const watchlistJSON = JSON.stringify(watchlist);
+    localStorage.setItem("watchlist", watchlistJSON);
 }
 
+//
 function displayWatchlist() {
-  const watchlist = getWatchlist();
-  const watchlistDiv = document.getElementById("watchlist");
-  watchlistDiv.innerHTML = "";
+    const watchlist = getWatchlist();
+    const watchlistDiv = document.getElementById("watchlist");
+    watchlistDiv.innerHTML = "";
 
-  watchlist.forEach((movie) => {
-      const movieCard = createMovieCard(movie);
-      const removeButton = document.createElement("button");
-      removeButton.textContent = "Remove from Watchlist";
-      removeButton.onclick = function () {
-          removeFromWatchlist(movie.id);
-          displayWatchlist();
-      };
+    watchlist.forEach((movie) => {
+        const movieCard = createMovieCard(movie);
+        const removeButton = document.createElement("button");
+        removeButton.textContent = "Remove from Watchlist";
+        removeButton.onclick = function () {
+            removeFromWatchlist(movie.id);
+            displayWatchlist();
+        };
 
-      movieCard.appendChild(removeButton);
-      watchlistDiv.appendChild(movieCard);
-  });
+        movieCard.appendChild(removeButton);
+        watchlistDiv.appendChild(movieCard);
+    });
 }

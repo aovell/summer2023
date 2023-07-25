@@ -46,34 +46,28 @@ h1 {
   float: left;
 }
 
-
- /* favorites */
+/* Add these CSS styles to your styles.css file */
 
 .favorites-wrapper {
-  display: flex;
-  overflow-x: auto;
-  margin-top: 20px;
-  padding: 10px;
+display: flex;
+overflow-x: auto;
+margin-top: 20px;
+padding: 10px;
 }
 
 .movie-card {
-  flex: 0 0 auto;
-  margin: 0 10px;
-}
-/*  watchlist */
-
-.watchlist-section {
-  margin-top: 40px;
+flex: 0 0 auto;
+margin: 0 10px;
 }
 
-.watchlist {
+.horizontal-scroll {
   display: flex;
   overflow-x: auto;
-  white-space: nowrap;
-  margin-top: 10px;
-  padding: 10px;
+  margin-bottom: 20px;
 }
 
-.watchlist .movie-card {
+.horizontal-scroll .movie-card {
   margin-right: 10px;
 }
+
+   
