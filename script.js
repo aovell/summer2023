@@ -32,7 +32,7 @@ function displayResults(results) {
         resultsDiv.appendChild(movieCard);
     });
 }
-
+// ... existing code ...
 
 function sortResultsAlphabetically() {
     const resultsDiv = document.getElementById("results");
@@ -47,6 +47,8 @@ function sortResultsAlphabetically() {
     movieCards.forEach((movieCard) => resultsDiv.appendChild(movieCard));
 }
 
+// ... existing code ...
+// ... (existing code)
 
 // Function to sort the search results by release date
 function sortResultsByReleaseDate() {
@@ -65,6 +67,8 @@ function sortResultsByReleaseDate() {
         resultsDiv.appendChild(movie); // Add the sorted movies back to the resultsDiv
     });
 }
+
+// ... (existing code)
 
 
 function createMovieCard(movie) {
@@ -163,9 +167,9 @@ function createCastCard(cast) {
     return castCard;
 }
 
+// ... (existing code)
 
-
-//
+// Add the following code at the end of script.js
 
 function addToFavorites(movie) {
   const favorites = getFavorites();
@@ -212,7 +216,7 @@ function displayFavorites() {
 
   favoritesDiv.appendChild(favoritesWrapper);
 }
-//
+// Add the following code at the end of script.js
 
 function addToWatchlist(movie) {
     const watchlist = getWatchlist();
